@@ -113,14 +113,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Vue, Options, Watch } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { Attribution, MouseCoords, RampMapConfig, ScaleBar } from '@/geo/api';
 import { MapCaptionStore } from '@/store/modules/map-caption';
 import { ConfigStore } from '@/store/modules/config';
 import NotificationsCaptionButtonV from '@/components/notification-center/caption-button.vue';
 
-@Component({
+@Options({
     components: {
         'notifications-caption-button': NotificationsCaptionButtonV
     }
