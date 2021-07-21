@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Options, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { LayerInstance } from '@/api/internal';
 
@@ -102,7 +102,7 @@ const NUM_TYPES: string[] = ['oid', 'double', 'integer'];
 const DATE_TYPE: string = 'date';
 const TEXT_TYPE: string = 'string';
 
-@Component({
+@Options({
     components: {
         'column-dropdown': GridColumnDropdownV,
         AgGridVue,

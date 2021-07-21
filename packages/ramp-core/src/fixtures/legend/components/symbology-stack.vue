@@ -44,11 +44,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Prop } from 'vue-property-decorator';
 
 import { LayerInstance } from '@/api/internal';
 
-@Component
 export default class LegendSymbologyStackV extends Vue {
     @Prop() visible!: boolean;
     @Prop() layer!: LayerInstance;

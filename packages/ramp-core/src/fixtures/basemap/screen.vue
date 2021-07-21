@@ -72,14 +72,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Options, Prop } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { PanelInstance } from '@/api';
 
 import { BasemapStore } from './store';
 import BasemapItemV from './item.vue';
 
-@Component({
+@Options({
     components: {
         'basemap-item': BasemapItemV
     }

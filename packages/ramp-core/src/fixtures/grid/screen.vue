@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Options, Prop } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 
 import { LayerInstance, PanelInstance } from '@/api';
@@ -68,7 +68,7 @@ import GridTableComponentV from '@/fixtures/grid/table-component.vue';
 
 import { LayerStore } from '@/store/modules/layer';
 
-@Component({
+@Options({
     components: {
         'table-component': GridTableComponentV
     }

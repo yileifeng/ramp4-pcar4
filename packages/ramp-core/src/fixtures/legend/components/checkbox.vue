@@ -22,11 +22,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Prop } from 'vue-property-decorator';
 
 import { LegendEntry } from '../store/legend-defs';
 
-@Component
 export default class LegendCheckboxV extends Vue {
     @Prop() value!: boolean;
     @Prop() isRadio!: boolean;

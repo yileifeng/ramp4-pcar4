@@ -100,14 +100,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Options, Prop } from 'vue-property-decorator';
 
 import { PanelInstance } from '@/api';
 
 import SettingsComponentV from './component.vue';
 import { LayerInstance } from '@/api/internal';
 
-@Component({
+@Options({
     components: {
         'settings-component': SettingsComponentV
     }

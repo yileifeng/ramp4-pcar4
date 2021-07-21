@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { AppbarItemInstance } from './store';
 import DividerV from './divider.vue';
@@ -41,7 +41,6 @@ Vue.component('appbar-button', AppbarButtonV);
 Vue.component('more-button', MoreAppbarButtonV);
 Vue.component('nav-button', NavAppbarButtonV);
 
-@Component
 export default class AppbarV extends Vue {
     @Get('appbar/visible') items!: AppbarItemInstance[];
     @Get('appbar/temporary') temporaryItems!: AppbarItemInstance[];

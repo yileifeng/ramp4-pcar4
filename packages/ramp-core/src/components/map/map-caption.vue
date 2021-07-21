@@ -106,13 +106,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { Attribution, ScaleBarProperties } from '@/geo/api';
 import { GlobalEvents } from '@/api';
 import { MapCaptionStore } from '@/store/modules/map-caption';
 
-@Component
 export default class MapCaptionV extends Vue {
     @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
     @Get(MapCaptionStore.attribution) attribution!: Attribution;
