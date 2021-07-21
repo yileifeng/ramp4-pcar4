@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Prop } from 'vue-property-decorator';
 import {
     LegendEntry,
     LegendGroup,
@@ -34,7 +34,6 @@ import {
     LegendSet
 } from '../store/legend-defs';
 
-@Component
 export default class CheckboxV extends Vue {
     @Prop() value!: any;
     @Prop() legendItem!: LegendEntry;

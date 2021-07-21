@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Options, Prop, Watch } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 
 import { LayerStore } from '@/store/modules/layer';
@@ -49,7 +49,7 @@ import { LegendEntry, LegendTypes } from '../store/legend-defs';
 import LegendCheckboxV from './checkbox.vue';
 import LegendSymbologyStackV from './symbology-stack.vue';
 
-@Component({
+@Options({
     components: {
         checkbox: LegendCheckboxV,
         'symbology-stack': LegendSymbologyStackV

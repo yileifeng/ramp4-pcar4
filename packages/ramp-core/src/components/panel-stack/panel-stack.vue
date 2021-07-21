@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Options } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 
 import anime from 'animejs';
@@ -31,7 +31,7 @@ declare class ResizeObserver {
     disconnect(): void;
 }
 
-@Component({
+@Options({
     components: {
         'panel-container': PanelContainerV
     }

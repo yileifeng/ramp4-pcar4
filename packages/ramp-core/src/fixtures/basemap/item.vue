@@ -85,12 +85,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Component } from 'vue-property-decorator';
+import { Vue, Prop } from 'vue-property-decorator';
 import { Get, Call } from 'vuex-pathify';
 
 import { BasemapStore } from './store';
 
-@Component
 export default class BasemapItemV extends Vue {
     @Prop() basemap!: any;
     @Get(BasemapStore.selectedBasemap) selectedBasemap!: any;
