@@ -4,8 +4,8 @@ declare module '*.vue' {
 }
 
 declare module '*lang.csv' {
-    import { LocaleMessages } from 'vue-i18n';
-    const content: LocaleMessages;
+    import { LocaleMessages, VueMessageType } from 'vue-i18n';
+    const content: LocaleMessages<VueMessageType>;
     export default content;
 }
 
