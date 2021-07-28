@@ -105,22 +105,30 @@ export class SymbologyAPI extends APIScope {
      * @param {String} imageUri url or dataUrl of the legend image
      * @return {Promise} a promise resolving with symbology svg code and its label
      */
-    async generateWMSSymbology(
-        name: string,
-        imageUri: string
-    ): Promise<Object> {
+    async generateWMSSymbology(imageUri: string): Promise<Object> {
         const draw = svgjs(window.document.createElement('div'))
             .size(this.CONTAINER_SIZE, this.CONTAINER_SIZE)
             .viewbox(0, 0, 0, 0);
 
         const symbologyItem = {
-            name,
-            svgcode: ''
+            svgcode: '',
+            imgHeight: '',
+            imgWidth: ''
         };
 
         if (imageUri) {
             const svgcode = await this.renderSymbologyImage(imageUri);
-            symbologyItem.svgcode = svgcode;
+            if (svgcode) {
+                symbologyItem.svgcode = svgcode;
+                // temp element to make it easier to access svgcode element attributes
+                const svg = document.createElement('span');
+                svg.innerHTML = svgcode;
+                const img = svg.firstElementChild?.lastElementChild;
+                symbologyItem.imgHeight = img?.getAttribute('height') || '';
+                symbologyItem.imgWidth = img?.getAttribute('width') || '';
+            } else {
+                symbologyItem.svgcode = draw.svg();
+            }
         } else {
             symbologyItem.svgcode = draw.svg();
         }
@@ -188,6 +196,10 @@ export class SymbologyAPI extends APIScope {
         const dataUri = await this.$iApi.geo.utils.shared.convertImagetoDataURL(
             imageUri
         );
+        if (dataUri === imageUri) {
+            // Something went wrong
+            return '';
+        }
 
         const { loader } = await this.svgDrawImage(draw, dataUri);
 
@@ -831,6 +843,8 @@ export class SymbologyAPI extends APIScope {
                               .map(su => su.definitionClause)
                               .join(' OR ')})`,
                 svgcode: '', // TODO is '' ok? maybe we need white square svg? or some loading icon?
+                visibility: true,
+                lastVisbility: true,
                 drawPromise: this.symbolToSvg(firstSu.symbol).then(svg => {
                     // update the legend symbol object
                     legendSym.svgcode = svg;

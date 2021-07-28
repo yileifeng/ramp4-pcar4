@@ -12,6 +12,16 @@ export class SharedUtilsAPI {
     generateUUID(): string {
         let d = Date.now();
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            /*
+            // TODO: Come up with cheaper solution that doesn't use the crypto API and satifies CodeQL
+            const r =
+            (d +
+                window.crypto.getRandomValues(new Uint32Array(1))[0] *
+                Math.pow(2, -32) *
+                16) %
+                16 |
+                0; */
+
             // do math!
             /*jslint bitwise: true */
             const r = (d + Math.random() * 16) % 16 | 0;
