@@ -109,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
+import { Vue, Options } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { Attribution, ScaleBarProperties } from '@/geo/api';
 import { GlobalEvents } from '@/api';
@@ -117,7 +117,7 @@ import { MapCaptionStore } from '@/store/modules/map-caption';
 
 import NotificationsCaptionButtonV from '@/components/notification-center/caption-button.vue';
 
-@Component({
+@Options({
     components: {
         'notifications-caption-button': NotificationsCaptionButtonV
     }
