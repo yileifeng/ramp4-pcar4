@@ -50,7 +50,7 @@ module.exports = {
                     ...options,
                     compilerOptions: {
                         compatConfig: {
-                            MODE: 3
+                            MODE: 2
                         }
                     }
                 };
@@ -100,7 +100,9 @@ module.exports = {
         // PROD-specific configuration
         config.when(process.env.NODE_ENV === 'production', config => {
             // copy `ramp-starter.js` to `dist` folder when building prod build
-            config.plugin('webpack-copy-plugin').tap(args => [[...args[0], { from: 'public/alternate.js', to: '' }]]);
+            config
+                .plugin('webpack-copy-plugin')
+                .tap(args => [[...args[0], { from: 'public/alternate.js', to: '' }]]);
             config
                 .plugin('webpack-copy-plugin')
                 .tap(args => [[...args[0], { from: 'public/ramp-starter.js', to: '' }]]);
@@ -113,7 +115,9 @@ module.exports = {
                     }
                 ]
             ]);
-            config.plugin('webpack-copy-plugin').tap(args => [[...args[0], { from: 'public/help', to: 'help' }]]);
+            config
+                .plugin('webpack-copy-plugin')
+                .tap(args => [[...args[0], { from: 'public/help', to: 'help' }]]);
         });
 
         // get version numbers
