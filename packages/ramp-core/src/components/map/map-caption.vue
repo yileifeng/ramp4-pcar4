@@ -14,10 +14,7 @@
             py-2
         "
     >
-        <span
-            class="relative ml-10 truncate top-1"
-            v-if="!attribution.logo.disabled"
-        >
+        <span class="relative ml-10 truncate top-1" v-if="!attribution.logo.disabled">
             <a
                 class="pointer-events-auto cursor-pointer"
                 :href="attribution.logo.link"
@@ -31,25 +28,17 @@
             </a>
         </span>
 
-        <span
-            class="relative ml-10 truncate top-1"
-            v-if="!attribution.text.disabled"
-        >
+        <span class="relative ml-10 truncate top-1" v-if="!attribution.text.disabled">
             {{ attribution.text.value }}
         </span>
 
-        <notifications-caption-button
-            class="sm:block display-none"
-        ></notifications-caption-button>
+        <notifications-caption-button class="sm:block display-none"></notifications-caption-button>
 
         <span class="flex-grow w-15"></span>
 
         <!-- TODO: find out if any ARIA attributes are needed for the map scale -->
 
-        <span
-            v-if="!cursorCoords.disabled"
-            class="flex-shrink-0 relative top-1 pr-14 pl-14"
-        >
+        <span v-if="!cursorCoords.disabled" class="flex-shrink-0 relative top-1 pr-14 pl-14">
             {{ cursorCoords.formattedString }}
         </span>
 
