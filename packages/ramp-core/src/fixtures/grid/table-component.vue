@@ -9,22 +9,16 @@
                     })
                 }}
 
-                <span
-                    v-if="this.filterInfo.visibleRows !== this.rowData.length"
-                    >{{
-                        $t('grid.filters.label.filtered', {
-                            max: this.rowData.length
-                        })
-                    }}</span
-                >
+                <span v-if="this.filterInfo.visibleRows !== this.rowData.length">{{
+                    $t('grid.filters.label.filtered', {
+                        max: this.rowData.length
+                    })
+                }}</span>
             </span>
             <div class="flex-grow"></div>
 
             <!-- show/hide columns -->
-            <column-dropdown
-                :columnApi="columnApi"
-                :columnDefs="columnDefs"
-            ></column-dropdown>
+            <column-dropdown :columnApi="columnApi" :columnDefs="columnDefs"></column-dropdown>
 
             <!-- toggle column filters -->
             <div>
@@ -32,9 +26,7 @@
                     class="w-64"
                     @click="toggleShowFilters()"
                     :content="
-                        gridOptions.floatingFilter
-                            ? $t('grid.label.filters.hide')
-                            : $t('grid.label.filters.show')
+                        gridOptions.floatingFilter ? $t('grid.label.filters.hide') : $t('grid.label.filters.show')
                     "
                     v-tippy="{ placement: 'bottom', hideOnClick: false }"
                 >
@@ -81,7 +73,7 @@ import { LayerInstance } from '@/api/internal';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
-import { AgGridVue } from 'ag-grid-vue';
+import { AgGridVue } from 'ag-grid-vue3';
 import GridColumnDropdownV from './column-dropdown.vue';
 import { GridConfig } from './store';
 import TableStateManager from './store/table-state-manager';
@@ -115,9 +107,7 @@ const TEXT_TYPE: string = 'string';
 })
 export default class GridTableComponentV extends Vue {
     @Prop() layerUid!: string;
-    @Get('layer/getLayerByUid') getLayerByUid!: (
-        uid: string
-    ) => LayerInstance | undefined;
+    @Get('layer/getLayerByUid') getLayerByUid!: (uid: string) => LayerInstance | undefined;
     @Sync('grid/grids') grids!: { [uid: string]: GridConfig };
 
     columnApi: any = null;
@@ -156,9 +146,7 @@ export default class GridTableComponentV extends Vue {
             suppressColumnVirtualisation: true
         };
 
-        const fancyLayer: LayerInstance | undefined = this.getLayerByUid(
-            this.layerUid
-        );
+        const fancyLayer: LayerInstance | undefined = this.getLayerByUid(this.layerUid);
         if (fancyLayer === undefined) {
             // this really shouldn't happen unless the wrong API call is made, but maybe we should
             // do something else here anyway.
@@ -167,18 +155,12 @@ export default class GridTableComponentV extends Vue {
         }
 
         fancyLayer.isLayerLoaded().then(() => {
-            const tableAttributePromise = fancyLayer.getTabularAttributes(
-                this.layerUid
-            );
+            const tableAttributePromise = fancyLayer.getTabularAttributes(this.layerUid);
 
             tableAttributePromise.then((tableAttributes: any) => {
                 // Iterate through table columns and set up column definitions and column filter stuff.
                 // Also adds the `rvSymbol` and `rvInteractive` columns to the table.
-                [
-                    'rvSymbol',
-                    'rvInteractive',
-                    ...tableAttributes.columns
-                ].forEach((column: any) => {
+                ['rvSymbol', 'rvInteractive', ...tableAttributes.columns].forEach((column: any) => {
                     let col: ColumnDefinition = {
                         headerName: column.title || '',
                         field: column.data || column,
@@ -194,9 +176,7 @@ export default class GridTableComponentV extends Vue {
                     };
 
                     // retrieve the field info for the column
-                    let fieldInfo = tableAttributes.fields.find(
-                        (field: any) => field.name === col.field
-                    );
+                    let fieldInfo = tableAttributes.fields.find((field: any) => field.name === col.field);
 
                     if (column === 'rvSymbol' || column === 'rvInteractive') {
                         this.setUpSymbolsAndInteractive(col, this.columnDefs);
@@ -211,18 +191,12 @@ export default class GridTableComponentV extends Vue {
                             col.minWidth = 400;
                             col.cellRenderer = (cell: any) => {
                                 // get YYYY-MM-DD from date
-                                return new Date(cell.value)
-                                    .toISOString()
-                                    .slice(0, 10);
+                                return new Date(cell.value).toISOString().slice(0, 10);
                             };
                         } else if (fieldInfo.type === TEXT_TYPE) {
                             if (col.isSelector) {
                                 // set up a selector filter instead of a text filter if the `isSelector` flag is true.
-                                this.setUpSelectorFilter(
-                                    col,
-                                    tableAttributes.rows,
-                                    this.config.state
-                                );
+                                this.setUpSelectorFilter(col, tableAttributes.rows, this.config.state);
                             } else {
                                 this.setUpTextFilter(col, this.config.state);
                             }
@@ -309,10 +283,7 @@ export default class GridTableComponentV extends Vue {
                 : '';
 
         colDef.floatingFilterComponent = 'dateFloatingFilter';
-        colDef.filterParams.comparator = function(
-            filterDate: any,
-            entryDate: any
-        ) {
+        colDef.filterParams.comparator = function(filterDate: any, entryDate: any) {
             let entry = new Date(entryDate);
 
             // We need to specifically compare the UTC year, month, and date because
@@ -347,10 +318,7 @@ export default class GridTableComponentV extends Vue {
 
     setUpSelectorFilter(colDef: any, rowData: any, state: TableStateManager) {
         // Retrieve stored filter value from the state manager if it exists.
-        let value =
-            state.getColumnFilter(colDef.field) !== undefined
-                ? state.getColumnFilter(colDef.field)
-                : '';
+        let value = state.getColumnFilter(colDef.field) !== undefined ? state.getColumnFilter(colDef.field) : '';
 
         colDef.floatingFilterComponent = 'selectorFloatingFilter';
         colDef.filterParams.inRangeInclusive = true;
@@ -382,10 +350,7 @@ export default class GridTableComponentV extends Vue {
 
     setUpTextFilter(colDef: any, state: TableStateManager) {
         // Retrieve stored filter value from the state manager if it exists.
-        let value =
-            state.getColumnFilter(colDef.field) !== undefined
-                ? state.getColumnFilter(colDef.field)
-                : '';
+        let value = state.getColumnFilter(colDef.field) !== undefined ? state.getColumnFilter(colDef.field) : '';
 
         colDef.floatingFilterComponent = 'textFloatingFilter';
         colDef.floatingFilterComponentParams = {
@@ -397,11 +362,7 @@ export default class GridTableComponentV extends Vue {
         // see: https://github.com/ramp4-pcar4/ramp4-pcar4/pull/57#pullrequestreview-377999397
 
         // default to regex filtering for text columns
-        colDef.filterParams.textCustomComparator = function(
-            filter: any,
-            gridValue: any,
-            filterText: any
-        ) {
+        colDef.filterParams.textCustomComparator = function(filter: any, gridValue: any, filterText: any) {
             // treat * as a regular special character
             const newFilterText = filterText.replace(/\*/, '\\*');
             // surround filter text with .* to match anything before and after
@@ -488,9 +449,7 @@ export default class GridTableComponentV extends Vue {
                 isStatic: true,
                 maxWidth: 82,
                 cellRenderer: (cell: any) => {
-                    const layer: LayerInstance | undefined = this.getLayerByUid(
-                        this.layerUid
-                    );
+                    const layer: LayerInstance | undefined = this.getLayerByUid(this.layerUid);
                     if (layer === undefined) return;
                     const iconContainer = document.createElement('span');
                     const oid = cell.data[this.oidField];
@@ -522,16 +481,7 @@ export default class GridTableComponentV extends Vue {
     }
 
     stopArrowKeyProp(event: KeyboardEvent) {
-        const arrowKeys = [
-            'ArrowDown',
-            'Down',
-            'ArrowLeft',
-            'Left',
-            'ArrowUp',
-            'Up',
-            'ArrowRight',
-            'Right'
-        ];
+        const arrowKeys = ['ArrowDown', 'Down', 'ArrowLeft', 'Left', 'ArrowUp', 'Up', 'ArrowRight', 'Right'];
         if (arrowKeys.includes(event.key)) {
             event.stopPropagation();
         }

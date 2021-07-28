@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Options } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 
-@Component
+@Options({})
 export default class NotificationsAppbarButtonV extends Vue {
     @Get('notification/notificationNumber') number!: Number;
 
