@@ -1,9 +1,9 @@
 <template>
     <button
         @click="$iApi.panel.get('notifications-panel').open()"
-        class="pointer-events-auto 
-               flex items-center absolute left-8 bottom-36 p-6 
-               block sm:hidden 
+        class="pointer-events-auto
+               flex items-center absolute left-8 bottom-36 p-6
+               block sm:hidden
                bg-black-75 rounded-full text-gray-400 hover:text-white"
         :content="$t('notifications.title')"
         v-tippy
@@ -27,10 +27,9 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 
-@Component
 export default class NotificationsFloatingButtonV extends Vue {
     @Get('notification/notificationNumber') number!: Number;
 }
