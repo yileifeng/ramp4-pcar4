@@ -9,6 +9,7 @@ importers:
     specifiers:
       '@arcgis/core': 4.19.3
       '@braid/vue-formulate': ~2.5.2
+      '@popperjs/core': ~2.9.2
       '@tailwindcss/forms': ^0.2.1
       '@tailwindcss/postcss7-compat': ^2.0.2
       '@types/animejs': ~3.1.0
@@ -92,8 +93,8 @@ importers:
     dependencies:
       '@arcgis/core': 4.19.3
       '@braid/vue-formulate': 2.5.2
+      '@popperjs/core': 2.9.2
       '@vue/compat': 3.1.5_vue@3.1.5
-      '@vue/runtime-core': 3.1.5
       ag-grid-community: 25.3.0
       ag-grid-vue3: 25.3.1_e033715420b8b61d47255dea5dcfbe87
       animejs: 3.2.1
@@ -152,6 +153,7 @@ importers:
       '@vue/compiler-sfc': 3.1.5_vue@3.1.5
       '@vue/eslint-config-prettier': 5.1.0_e1499f8d99d97750b83122d052432983
       '@vue/eslint-config-typescript': 4.0.0_eslint@5.16.0+typescript@3.8.3
+      '@vue/runtime-core': 3.1.5
       '@vue/test-utils': 1.0.0-beta.29_vue@3.1.5
       autoprefixer: 9.8.6
       cross-env: 7.0.3
@@ -1805,6 +1807,10 @@ packages:
     resolution: {integrity: sha512-cPqjjzuFWNK3BSKLm0abspP0sp/IGOli4p5I5fKFAzdS8fvjdOwDCfZqAaIiXd9lPkOWi3SUUfZof3hEb7J/uw==}
     dev: false
 
+  /@popperjs/core/2.9.2:
+    resolution: {integrity: sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==}
+    dev: false
+
   /@samverschueren/stream-to-observable/0.3.1_rxjs@6.6.7:
     resolution: {integrity: sha512-c/qwwcHyafOQuVQJj0IlBjf5yYgBI7YPJ77k4fOJYesb41jio65eaJODRUmfYKhTOFBrIZ66kgvGPlNbjuoRdQ==}
     engines: {node: '>=6'}
@@ -2793,14 +2799,12 @@ packages:
     resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
     dependencies:
       '@vue/shared': 3.1.5
-    dev: false
 
   /@vue/runtime-core/3.1.5:
     resolution: {integrity: sha512-YQbG5cBktN1RowQDKA22itmvQ+b40f0WgQ6CXK4VYoYICAiAfu6Cc14777ve8zp1rJRGtk5oIeS149TOculrTg==}
     dependencies:
       '@vue/reactivity': 3.1.5
       '@vue/shared': 3.1.5
-    dev: false
 
   /@vue/runtime-dom/3.1.5:
     resolution: {integrity: sha512-tNcf3JhVR0RfW0kw1p8xZgv30nvX8Y9rsz7eiQ0dHe273sfoCngAG0y4GvMaY4Xd8FsjUwFedd4suQ8Lu8meXg==}
