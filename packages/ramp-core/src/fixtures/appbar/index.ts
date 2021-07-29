@@ -1,6 +1,6 @@
 import AppbarV from './appbar.vue';
 import { AppbarAPI } from './api/appbar';
-import { appbar, AppbarItemInstance } from './store';
+import { appbar, AppbarItemInstance, AppbarFixtureConfig } from './store';
 import { GlobalEvents, PanelInstance } from '@/api';
 import messages from './lang/lang.csv';
 
@@ -16,24 +16,25 @@ class AppbarFixture extends AppbarAPI {
 
         // merge in translations since this has no panel
         Object.entries(messages).forEach(value =>
-            this.$vApp.$i18n.mergeLocaleMessage(...value)
+            (<any>this.$vApp.$i18n).mergeLocaleMessage(...value)
         );
 
-        const appbarInstance = this.extend(AppbarV, {
-            store: this.$vApp.$store,
-            i18n: this.$vApp.$i18n
-        });
+        this.$element.component('AppbarV', AppbarV);
+        // const appbarInstance = this.extend(AppbarV, {
+        //     store: this.$vApp.$store,
+        //     i18n: this.$vApp.$i18n
+        // });
 
         // TODO: the `innerShell` reference will probably get used more than once; consider creating a dedicated ref on `$iApi`;
-        const innerShell = this.$vApp.$el.getElementsByClassName(
-            'inner-shell'
-        )[0];
-        innerShell.insertBefore(appbarInstance.$el, innerShell.children[0]);
+        // const innerShell = this.$vApp.$el.getElementsByClassName(
+        //     'inner-shell'
+        // )[0];
+        // innerShell.insertBefore(appbarInstance.$el, innerShell.children[0]);
 
         this._parseConfig(this.config);
         this.$vApp.$watch(
             () => this.config,
-            value => this._parseConfig(value)
+            (value: AppbarFixtureConfig | undefined) => this._parseConfig(value)
         );
 
         // Add and remove temp appbar buttons when panels are opened and close
