@@ -1,4 +1,9 @@
-import { ComponentPublicInstance, createApp as createRampApp, App as VueApp, DefineComponent } from 'vue';
+import {
+    ComponentPublicInstance,
+    createApp as createRampApp,
+    App as VueApp,
+    DefineComponent
+} from 'vue';
 import { RampConfig, RampConfigs } from '@/types';
 import { i18n } from '@/lang';
 import screenfull from 'screenfull';
@@ -10,11 +15,18 @@ import { ConfigStore } from '@/store/modules/config';
 import VueFormulate from '@braid/vue-formulate';
 
 //@ts-ignore
+import VueTippy, { TippyComponent, tippy } from 'vue-tippy';
 import { FocusList, FocusItem } from '@/directives/focus-list';
 import { Truncate } from '@/directives/truncate/truncate';
-import VueTippy, { TippyComponent, tippy } from 'vue-tippy';
 
-import { EventAPI, FixtureAPI, GeoAPI, GlobalEvents, PanelAPI, NotificationAPI } from './internal';
+import {
+    EventAPI,
+    FixtureAPI,
+    GeoAPI,
+    GlobalEvents,
+    PanelAPI,
+    NotificationAPI
+} from './internal';
 
 import PanelScreenV from '@/components/panel-stack/panel-screen.vue';
 import PinV from '@/components/panel-stack/controls/pin.vue';
@@ -47,7 +59,11 @@ export class InstanceAPI {
 
     private _isFullscreen: boolean;
 
-    constructor(element: HTMLElement, configs?: RampConfigs, options?: RampOptions) {
+    constructor(
+        element: HTMLElement,
+        configs?: RampConfigs,
+        options?: RampOptions
+    ) {
         this.event = new EventAPI(this);
 
         const appInstance = createApp(element, this);
@@ -82,7 +98,10 @@ export class InstanceAPI {
             }
 
             // disable animations if needed
-            if (!configs[this.$vApp.$i18n.locale].animate && this.$element._container) {
+            if (
+                !configs[this.$vApp.$i18n.locale].animate &&
+                this.$element._container
+            ) {
                 this.$element._container.classList.remove('animation-enabled');
             }
         }
@@ -179,7 +198,10 @@ export class InstanceAPI {
     getConfig() {
         const language = this.$vApp.$i18n.locale;
 
-        return this.$vApp.$store.get(ConfigStore.getActiveConfig, language) as RampConfig;
+        return this.$vApp.$store.get(
+            ConfigStore.getActiveConfig,
+            language
+        ) as RampConfig;
     }
 
     /**
