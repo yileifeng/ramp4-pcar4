@@ -18,8 +18,11 @@
                     v-focus-item
                     v-truncate
                 >
-                    <span v-html="icon[idx]" class="flex-none symbologyIcon">
-                    </span>
+                    <!-- TODO: test if itemIcon() call works as intended -->
+                    <span
+                        v-html="itemIcon(item.data, idx)"
+                        class="flex-none symbologyIcon"
+                    ></span>
                     <span class="flex-initial py-5 px-10" v-truncate>
                         {{
                             item.data[nameField] ||
@@ -36,6 +39,7 @@
 <script lang="ts">
 import { Vue, Prop } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
+import { get } from '@/store/pathify-helper';
 import { DetailsStore } from './store';
 
 import { LayerInstance, PanelInstance } from '@/api';
@@ -45,10 +49,14 @@ export default class DetailsResultScreenV extends Vue {
     @Prop() panel!: PanelInstance;
     @Prop() resultIndex!: number;
 
-    @Get(DetailsStore.payload) payload!: IdentifyResult[];
-    @Get('layer/getLayerByUid') getLayerByUid!: (
-        uid: string
-    ) => LayerInstance | undefined;
+    payload: IdentifyResult[] = get(DetailsStore.payload);
+    // @Get(DetailsStore.payload) payload!: IdentifyResult[];
+    getLayerByUid: (uid: string) => LayerInstance | undefined = get(
+        'layer/getLayerByUid'
+    );
+    // @Get('layer/getLayerByUid') getLayerByUid!: (
+    //     uid: string
+    // ) => LayerInstance | undefined;
 
     icon: string[] = [];
 
@@ -77,12 +85,15 @@ export default class DetailsResultScreenV extends Vue {
             );
             return;
         }
+
         const oidField = layer.getOidField(uid);
         layer.getIcon(data[oidField], uid).then(value => {
             if (this.icon[idx] !== value) {
                 this.icon[idx] = value;
             }
         });
+
+        return this.icon[idx];
     }
 
     /**

@@ -25,6 +25,7 @@ import PanelStackV from '@/components/panel-stack/panel-stack.vue';
 import MapCaptionV from '@/components/map/map-caption.vue';
 import NotificationsFloatingButtonV from '@/components/notification-center/floating-button.vue';
 import { Get } from 'vuex-pathify';
+import { get } from '@/store/pathify-helper';
 import { FixtureInstance } from '@/api';
 
 @Options({
@@ -36,7 +37,9 @@ import { FixtureInstance } from '@/api';
     }
 })
 export default class Shell extends Vue {
-    @Get(`fixture/items@appbar`) appbarFixture?: FixtureInstance;
+    // TODO: this doesn't work
+    appbarFixture?: FixtureInstance = get(`fixture/items@appbar`);
+    // @Get(`fixture/items@appbar`) appbarFixture?: FixtureInstance;
 }
 </script>
 
