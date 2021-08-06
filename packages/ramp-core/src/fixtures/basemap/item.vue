@@ -87,12 +87,14 @@
 <script lang="ts">
 import { Vue, Prop } from 'vue-property-decorator';
 import { Get, Call } from 'vuex-pathify';
+import { get } from '@/store/pathify-helper';
 
 import { BasemapStore } from './store';
 
 export default class BasemapItemV extends Vue {
     @Prop() basemap!: any;
-    @Get(BasemapStore.selectedBasemap) selectedBasemap!: any;
+    selectedBasemap: any = get(BasemapStore.selectedBasemap);
+    // @Get(BasemapStore.selectedBasemap) selectedBasemap!: any;
 
     // import required basemap store actions
     @Call(BasemapStore.selectBasemap) selectBasemap!: (basemap: any) => void;

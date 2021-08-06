@@ -21,7 +21,8 @@ export const store = vuexCreateStore(<RootState>{
         layer: layer(),
         mapcaption: mapcaption(),
         maptip: maptip(),
-        panel: panel()
+        panel: panel(),
+        notification: notification()
     }
 });
 

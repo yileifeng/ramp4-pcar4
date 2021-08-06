@@ -77,6 +77,7 @@
 <script lang="ts">
 import { Vue, Options, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
+import { get } from '@/store/pathify-helper';
 import { LayerInstance } from '@/api/internal';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -115,9 +116,12 @@ const TEXT_TYPE: string = 'string';
 })
 export default class GridTableComponentV extends Vue {
     @Prop() layerUid!: string;
-    @Get('layer/getLayerByUid') getLayerByUid!: (
-        uid: string
-    ) => LayerInstance | undefined;
+    getLayerByUid: (uid: string) => LayerInstance | undefined = get(
+        'layer/getLayerByUid'
+    );
+    // @Get('layer/getLayerByUid') getLayerByUid!: (
+    //     uid: string
+    // ) => LayerInstance | undefined;
     @Sync('grid/grids') grids!: { [uid: string]: GridConfig };
 
     columnApi: any = null;
