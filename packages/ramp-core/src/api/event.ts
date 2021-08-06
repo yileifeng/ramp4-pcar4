@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { TinyEmitter } from 'tiny-emitter';
 import { APIScope, InstanceAPI, LayerInstance } from './internal';
 import { DetailsAPI } from '@/fixtures/details/api/details';
 import { SettingsAPI } from '@/fixtures/settings/api/settings';
@@ -17,8 +17,6 @@ import {
 import { RampConfig } from '@/types';
 import { debounce, throttle } from 'throttle-debounce';
 import { MapCaptionStore } from '@/store/modules/map-caption';
-
-const emitter = require('tiny-emitter');
 
 export enum GlobalEvents {
     /**
@@ -154,7 +152,7 @@ export class EventAPI extends APIScope {
 
     constructor(iApi: InstanceAPI) {
         super(iApi);
-        this._eventBus = new emitter();
+        this._eventBus = new TinyEmitter();
         this._eventRegister = [];
         this._funCounter = 1;
 
