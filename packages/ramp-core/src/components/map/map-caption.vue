@@ -111,6 +111,7 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
+import { get } from '@/store/pathify-helper';
 import { Attribution, ScaleBarProperties } from '@/geo/api';
 import { GlobalEvents } from '@/api';
 import { MapCaptionStore } from '@/store/modules/map-caption';
@@ -123,9 +124,12 @@ import NotificationsCaptionButtonV from '@/components/notification-center/captio
     }
 })
 export default class MapCaptionV extends Vue {
-    @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
-    @Get(MapCaptionStore.attribution) attribution!: Attribution;
-    @Get(MapCaptionStore.cursorCoords) cursorCoords!: string;
+    scale: ScaleBarProperties = get(MapCaptionStore.scale);
+    attribution: Attribution = get(MapCaptionStore.attribution);
+    cursorCoords: string = get(MapCaptionStore.cursorCoords);
+    // @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
+    // @Get(MapCaptionStore.attribution) attribution!: Attribution;
+    // @Get(MapCaptionStore.cursorCoords) cursorCoords!: string;
     lang: string[] = [];
 
     mounted() {
