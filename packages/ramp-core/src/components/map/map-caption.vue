@@ -104,7 +104,9 @@
 <script lang="ts">
 import { Vue, Options, Watch } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
-import { Attribution, MouseCoords, RampMapConfig, ScaleBar } from '@/geo/api';
+import { Attribution, MouseCoords, RampMapConfig, ScaleBar, ScaleBarProperties } from '@/geo/api';
+import { get } from '@/store/pathify-helper';
+import { GlobalEvents } from '@/api';
 import { MapCaptionStore } from '@/store/modules/map-caption';
 import { ConfigStore } from '@/store/modules/config';
 import NotificationsCaptionButtonV from '@/components/notification-center/caption-button.vue';
@@ -115,10 +117,13 @@ import NotificationsCaptionButtonV from '@/components/notification-center/captio
     }
 })
 export default class MapCaptionV extends Vue {
-    @Get(MapCaptionStore.scale) scale!: ScaleBar;
-    @Get(MapCaptionStore.attribution) attribution!: Attribution;
-    @Get(MapCaptionStore.cursorCoords) cursorCoords!: MouseCoords;
-    @Get(ConfigStore.getMapConfig) mapConfig!: RampMapConfig;
+    scale: ScaleBarProperties = get(MapCaptionStore.scale);
+    attribution: Attribution = get(MapCaptionStore.attribution);
+    cursorCoords: string = get(MapCaptionStore.cursorCoords);
+    mapConfig: RampMapConfig = get(ConfigStore.getMapConfig);
+    // @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
+    // @Get(MapCaptionStore.attribution) attribution!: Attribution;
+    // @Get(MapCaptionStore.cursorCoords) cursorCoords!: string;
     lang: string[] = [];
 
     @Watch('mapConfig')
