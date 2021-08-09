@@ -102,6 +102,7 @@
 </template>
 
 <script lang="ts">
+import { ComputedRef } from 'vue';
 import { Vue, Options, Watch } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { Attribution, MouseCoords, RampMapConfig, ScaleBar, ScaleBarProperties } from '@/geo/api';
@@ -117,10 +118,10 @@ import NotificationsCaptionButtonV from '@/components/notification-center/captio
     }
 })
 export default class MapCaptionV extends Vue {
-    scale: ScaleBarProperties = get(MapCaptionStore.scale);
-    attribution: Attribution = get(MapCaptionStore.attribution);
-    cursorCoords: string = get(MapCaptionStore.cursorCoords);
-    mapConfig: RampMapConfig = get(ConfigStore.getMapConfig);
+    scale: ComputedRef<ScaleBarProperties> = get(MapCaptionStore.scale);
+    attribution: ComputedRef<Attribution> = get(MapCaptionStore.attribution);
+    cursorCoords: ComputedRef<string> = get(MapCaptionStore.cursorCoords);
+    mapConfig: ComputedRef<RampMapConfig> = get(ConfigStore.getMapConfig);
     // @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
     // @Get(MapCaptionStore.attribution) attribution!: Attribution;
     // @Get(MapCaptionStore.cursorCoords) cursorCoords!: string;

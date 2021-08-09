@@ -36,6 +36,7 @@
 </template>
 
 <script lang="ts">
+import { ComputedRef } from 'vue';
 import { Vue, Options } from 'vue-property-decorator';
 
 import EsriMapV from '@/components/map/esri-map.vue';
@@ -59,7 +60,7 @@ import { GlobalEvents } from '@/api';
 })
 export default class Shell extends Vue {
     // TODO: this doesn't work
-    appbarFixture?: FixtureInstance = get(`fixture/items@appbar`);
+    appbarFixture?: ComputedRef<FixtureInstance> = get(`fixture/items@appbar`);
     // @Get(`fixture/items@appbar`) appbarFixture?: FixtureInstance;
     start: boolean = false;
 
