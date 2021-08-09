@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts">
+import { ComputedRef } from 'vue';
 import { Vue, Options, Prop } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { get } from '@/store/pathify-helper';
@@ -88,9 +89,9 @@ import BasemapItemV from './item.vue';
 export default class BasemapScreenV extends Vue {
     @Prop() panel!: PanelInstance;
     // fetch basemap store properties/data
-    tileSchemas: Array<any> = get(BasemapStore.tileSchemas);
-    basemaps: Array<any> = get(BasemapStore.basemaps);
-    selectedBasemap: any = get(BasemapStore.selectedBasemap);
+    tileSchemas: ComputedRef<Array<any>> = get(BasemapStore.tileSchemas);
+    basemaps: ComputedRef<Array<any>> = get(BasemapStore.basemaps);
+    selectedBasemap: ComputedRef<any> = get(BasemapStore.selectedBasemap);
     // @Get(BasemapStore.tileSchemas) tileSchemas!: Array<any>;
     // @Get(BasemapStore.basemaps) basemaps!: Array<any>;
     // @Get(BasemapStore.selectedBasemap) selectedBasemap!: any;
@@ -101,7 +102,7 @@ export default class BasemapScreenV extends Vue {
 
     // filter out all the basemaps that match the current schema
     filterBasemaps(schemaId: string) {
-        return this.basemaps.filter(
+        return this.basemaps.value.filter(
             basemap => basemap.tileSchemaId === schemaId
         );
     }
