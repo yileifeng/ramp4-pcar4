@@ -453,7 +453,7 @@ class MapImageLayer extends AttribLayer {
      */
     getVisibility(layerIdx: number | string | undefined = undefined): boolean {
         const fc = this.getFC(layerIdx, true);
-        console.log('GETVIS', fc, this.esriLayer);
+
         if (!fc) {
             return !!this.esriLayer?.visible;
         } else {
