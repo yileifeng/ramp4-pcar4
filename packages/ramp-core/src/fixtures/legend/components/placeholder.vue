@@ -66,6 +66,10 @@ export default class LegendPlaceholderV extends Vue {
 
     @Watch('layers')
     layerAdded(newValue: LayerInstance[], oldValue: LayerInstance[]) {
+        if (newValue === undefined) {
+            return;
+        }
+
         this.layer = newValue.find(
             (layer: LayerInstance) => layer.id === this.legendItem.id
         );
@@ -90,7 +94,7 @@ export default class LegendPlaceholderV extends Vue {
 
     mounted() {
         // in case layer is added while placeholder component is dead
-        this.layerAdded(this.layers.value, []);
+        this.layerAdded(<LayerInstance[]>(<unknown>this.layers), []);
     }
 }
 </script>
