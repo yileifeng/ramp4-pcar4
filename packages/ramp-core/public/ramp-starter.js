@@ -180,12 +180,20 @@ let config = {
                 }
             },
             appbar: {
-                items: [
-                    'legend',
-                    'geosearch',
-                    'basemap',
-                ],
+                items: ['legend', 'geosearch', 'basemap'],
                 temporaryButtons: ['details', 'grid']
+            },
+            details: {
+                items: [
+                    {
+                        id: 'WaterQuantity',
+                        template: 'Water-Quantity-Template'
+                    },
+                    {
+                        id: 'WFSLayer',
+                        template: 'WFSLayer-Custom'
+                    }
+                ]
             },
             mapnav: { items: ['fullscreen', 'help', 'home', 'basemap'] },
             'export-v1-title': {
@@ -255,11 +263,7 @@ let config = {
         ],
         fixtures: {
             appbar: {
-                items: [
-                    'legend',
-                    'geosearch',
-                    'basemap',
-                ],
+                items: ['legend', 'geosearch', 'basemap'],
                 temporaryButtons: ['details', 'grid']
             },
             mapnav: { items: ['fullscreen', 'help', 'home', 'basemap'] },
@@ -279,6 +283,16 @@ let options = {
 rInstance = new RAMP.Instance(document.getElementById('app'), config, options);
 rInstance.fixture.addDefaultFixtures().then(() => {
     rInstance.panel.open('legend-panel');
+});
+
+rInstance.$element.component('WFSLayer-Custom', {
+    props: ['identifyData'],
+    template: `
+        <div>
+            <span>This is an example template that contains an image.</span>
+            <img src="https://i.imgur.com/WtY0tdC.gif" />
+        </div>
+    `
 });
 
 // add export-v1 fixtures
