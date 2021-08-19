@@ -36,6 +36,7 @@ importers:
       '@vue/eslint-config-typescript': ^4.0.0
       '@vue/runtime-core': 3.1.5
       '@vue/test-utils': 1.0.0-beta.29
+      '@vueform/toggle': 2.0.0
       ag-grid-community: ^25.3.0
       ag-grid-vue3: ^25.3.0
       animejs: ~3.2.0
@@ -79,7 +80,6 @@ importers:
       vue: 3.1.5
       vue-class-component: ^8.0.0-rc.1
       vue-i18n: ^9.1.7
-      vue-js-toggle-button: ^1.3.3
       vue-loader: next
       vue-property-decorator: ^10.0.0-rc.2
       vue-slider-component: next
@@ -95,6 +95,7 @@ importers:
       '@arcgis/core': 4.19.3
       '@braid/vue-formulate': 2.5.2
       '@popperjs/core': 2.9.3
+      '@vueform/toggle': 2.0.0
       ag-grid-community: 25.3.0
       ag-grid-vue3: 25.3.1_e033715420b8b61d47255dea5dcfbe87
       animejs: 3.2.1
@@ -120,7 +121,6 @@ importers:
       vue: 3.1.5
       vue-class-component: 8.0.0-rc.1_vue@3.1.5
       vue-i18n: 9.1.7_vue@3.1.5
-      vue-js-toggle-button: 1.3.3_vue@3.1.5
       vue-loader: 16.5.0_d950f26881ceb539432b09680dd2e4b9
       vue-property-decorator: 10.0.0-rc.3_02f8eea4846df4e4acf82e1a0ada6ce8
       vue-slider-component: 4.0.0-beta.4_02f8eea4846df4e4acf82e1a0ada6ce8
@@ -2825,6 +2825,10 @@ packages:
   /@vue/web-component-wrapper/1.3.0:
     resolution: {integrity: sha512-Iu8Tbg3f+emIIMmI2ycSI8QcEuAUgPTgHwesDU1eKMLE4YC/c/sFbGc70QgMq31ijRftV0R7vCm9co6rldCeOA==}
     dev: true
+
+  /@vueform/toggle/2.0.0:
+    resolution: {integrity: sha512-vSd14E5ninc/Yzk18NSDgt/qJ6oM3gusz1YREvW9xvNYPdijFnFzhNETTXG7x5r8ZAZrH8gtDUef1h3vUDybeA==}
+    dev: false
 
   /@vuepress/core/1.8.2:
     resolution: {integrity: sha512-lh9BLC06k9s0wxTuWtCkiNj49fkbW87enp0XSrFZHEoyDGSGndQjZmMMErcHc5Hx7nrW1nzc33sPH1NNtJl0hw==}
@@ -14422,14 +14426,6 @@ packages:
       vue: 3.1.5
       vue-template-es2015-compiler: 1.9.1
     dev: true
-
-  /vue-js-toggle-button/1.3.3_vue@3.1.5:
-    resolution: {integrity: sha512-0b920oztgK+1SqlYF26MPiT28hAieL5aAQE7u21XEym5ryfzD4EMer4hLkgDC/1sWsCHb22GvV+t1Kb4AI6QFw==}
-    peerDependencies:
-      vue: ^2.0.0
-    dependencies:
-      vue: 3.1.5
-    dev: false
 
   /vue-loader/15.9.8_0bd0d4c5e1fe9b167942e017753326e2:
     resolution: {integrity: sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==}
