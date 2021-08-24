@@ -32,7 +32,7 @@
             {{ attribution.text.value }}
         </span>
 
-        <notifications-caption-button class="sm:block display-none"></notifications-caption-button>
+        <notifications-caption-button class="sm:block hidden"></notifications-caption-button>
 
         <span class="flex-grow w-15"></span>
 
