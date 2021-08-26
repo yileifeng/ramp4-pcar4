@@ -14,10 +14,7 @@
             py-2
         "
     >
-        <span
-            class="relative ml-10 truncate top-1"
-            v-if="!attribution.logo.disabled"
-        >
+        <span class="relative ml-10 truncate top-1" v-if="!attribution.logo.disabled">
             <a
                 class="pointer-events-auto cursor-pointer"
                 :href="attribution.logo.link"
@@ -31,16 +28,11 @@
             </a>
         </span>
 
-        <span
-            class="relative ml-10 truncate top-1"
-            v-if="!attribution.text.disabled"
-        >
+        <span class="relative ml-10 truncate top-1" v-if="!attribution.text.disabled">
             {{ attribution.text.value }}
         </span>
 
-        <notifications-caption-button
-            class="sm:block hidden"
-        ></notifications-caption-button>
+        <notifications-caption-button class="sm:block hidden"></notifications-caption-button>
 
         <span class="flex-grow w-15"></span>
 
