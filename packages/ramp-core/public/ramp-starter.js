@@ -39,8 +39,7 @@ let config = {
                     hasNorthPole: true
                 },
                 {
-                    id:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    id: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     name: 'Web Mercator Maps',
                     extentSetId: 'EXT_ESRI_World_AuxMerc_3857',
                     lodSetId: 'LOD_ESRI_World_AuxMerc_3857',
@@ -62,8 +61,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT3978/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -79,8 +77,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/Simple/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -97,8 +94,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBME_CBCE_HS_RO_3978/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -115,8 +111,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -133,8 +128,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100,
                     attribution: {
                         text: {
@@ -159,8 +153,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -177,8 +170,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -195,8 +187,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -213,8 +204,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -231,8 +221,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 }
             ],
@@ -243,8 +232,7 @@ let config = {
                 id: 'WaterQuantity',
                 name: 'Water quantity parent',
                 layerType: 'esriMapImage',
-                url:
-                    'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
+                url: 'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
                 layerEntries: [
                     {
                         index: 1,
@@ -264,8 +252,7 @@ let config = {
             {
                 id: 'WaterQuality',
                 layerType: 'esriMapImage',
-                url:
-                    'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
+                url: 'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
                 layerEntries: [
                     {
                         index: 5,
@@ -284,8 +271,7 @@ let config = {
             {
                 id: 'CleanAir',
                 layerType: 'esriFeature',
-                url:
-                    'https://maps-cartes.ec.gc.ca/arcgis/rest/services/EcoGeo/EcoGeo/MapServer/9',
+                url: 'https://maps-cartes.ec.gc.ca/arcgis/rest/services/EcoGeo/EcoGeo/MapServer/9',
                 state: {
                     opacity: 0.8,
                     visibility: true
@@ -344,14 +330,12 @@ let config = {
                                     children: [
                                         {
                                             layerId: 'WaterQuantity',
-                                            name:
-                                                'Water Quantity in Nested Group',
+                                            name: 'Water Quantity in Nested Group',
                                             entryIndex: 1
                                         },
                                         {
                                             layerId: 'WaterQuality',
-                                            name:
-                                                'Water Quality in Nested Group',
+                                            name: 'Water Quality in Nested Group',
                                             entryIndex: 5
                                         }
                                     ]
@@ -372,8 +356,7 @@ let config = {
             details: {
                 items: [
                     {
-                        id: 'WaterQuantity',
-                        template: 'Water-Quantity-Template'
+                        id: 'WaterQuantity'
                     },
                     {
                         id: 'WFSLayer',
@@ -411,8 +394,7 @@ let config = {
                     hasNorthPole: true
                 },
                 {
-                    id:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    id: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     name: 'Web Mercator Maps',
                     extentSetId: 'EXT_ESRI_World_AuxMerc_3857',
                     lodSetId: 'LOD_ESRI_World_AuxMerc_3857',
@@ -434,8 +416,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT3978/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -451,8 +432,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/Simple/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -469,8 +449,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBME_CBCE_HS_RO_3978/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -487,8 +466,7 @@ let config = {
                                 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3978/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
+                    tileSchemaId: 'EXT_NRCAN_Lambert_3978#LOD_NRCAN_Lambert_3978',
                     wkid: 3978
                 },
                 {
@@ -505,8 +483,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100,
                     attribution: {
                         text: {
@@ -531,8 +508,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -549,8 +525,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -567,8 +542,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -585,8 +559,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 },
                 {
@@ -603,8 +576,7 @@ let config = {
                                 'https://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer'
                         }
                     ],
-                    tileSchemaId:
-                        'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
+                    tileSchemaId: 'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857',
                     wkid: 102100
                 }
             ],
@@ -615,8 +587,7 @@ let config = {
                 id: 'WaterQuantity',
                 name: 'Water quantity parent',
                 layerType: 'esriMapImage',
-                url:
-                    'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
+                url: 'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
                 layerEntries: [
                     {
                         index: 1,
@@ -636,8 +607,7 @@ let config = {
             {
                 id: 'WaterQuality',
                 layerType: 'esriMapImage',
-                url:
-                    'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
+                url: 'https://maps-cartes.ec.gc.ca/arcgis/rest/services/CESI/MapServer',
                 layerEntries: [
                     {
                         index: 5,
@@ -656,8 +626,7 @@ let config = {
             {
                 id: 'CleanAir',
                 layerType: 'esriFeature',
-                url:
-                    'https://maps-cartes.ec.gc.ca/arcgis/rest/services/EcoGeo/EcoGeo/MapServer/9',
+                url: 'https://maps-cartes.ec.gc.ca/arcgis/rest/services/EcoGeo/EcoGeo/MapServer/9',
                 state: {
                     opacity: 0.8,
                     visibility: true
@@ -716,14 +685,12 @@ let config = {
                                     children: [
                                         {
                                             layerId: 'WaterQuantity',
-                                            name:
-                                                'Water Quantity in Nested Group',
+                                            name: 'Water Quantity in Nested Group',
                                             entryIndex: 1
                                         },
                                         {
                                             layerId: 'WaterQuality',
-                                            name:
-                                                'Water Quality in Nested Group',
+                                            name: 'Water Quality in Nested Group',
                                             entryIndex: 5
                                         }
                                     ]
@@ -788,6 +755,5 @@ function animateToggle() {
     } else {
         rInstance.$vApp.$el.classList.add('animation-enabled');
     }
-    document.getElementById('animate-status').innerText =
-        'Animate: ' + rInstance.animate;
+    document.getElementById('animate-status').innerText = 'Animate: ' + rInstance.animate;
 }
