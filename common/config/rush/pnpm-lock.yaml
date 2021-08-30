@@ -37,8 +37,8 @@ importers:
       '@vue/runtime-core': 3.1.5
       '@vue/test-utils': 1.0.0-beta.29
       '@vueform/toggle': 2.0.0
-      ag-grid-community: ^25.3.0
-      ag-grid-vue3: ^25.3.0
+      ag-grid-community: ^26.0.0
+      ag-grid-vue3: ^26.0.0
       animejs: ~3.2.0
       autoprefixer: ^9.8.6
       await-to-js: ^3.0.0
@@ -96,8 +96,8 @@ importers:
       '@braid/vue-formulate': 2.5.2
       '@popperjs/core': 2.9.3
       '@vueform/toggle': 2.0.0
-      ag-grid-community: 25.3.0
-      ag-grid-vue3: 25.3.1_e033715420b8b61d47255dea5dcfbe87
+      ag-grid-community: 26.0.0
+      ag-grid-vue3: 26.0.0_6800db38983924182b3db8bddde4e787
       animejs: 3.2.1
       await-to-js: 3.0.0
       axios: 0.19.2
@@ -3171,18 +3171,18 @@ packages:
     engines: {node: '>= 0.12.0'}
     dev: true
 
-  /ag-grid-community/25.3.0:
-    resolution: {integrity: sha512-Xe4NZG0PP9kvhila1uHU4BeVfLDCWBmcuBYLBZ+49jvK+jYpuwdAjV3AwIlxpZGRR3WTdBUvUkSz9rmi2DRE3Q==}
+  /ag-grid-community/26.0.0:
+    resolution: {integrity: sha512-ewm640koOut+1nl+rDf/pUyM6/V2xbZ8T7VTzM0NZQNhn8TFG3grKs5iEzsKel8mwMWCSIO82xr356QNE11Hog==}
     dev: false
 
-  /ag-grid-vue3/25.3.1_e033715420b8b61d47255dea5dcfbe87:
-    resolution: {integrity: sha512-n5Zk2PXHd+nTyNwamRq9HUPo1vNKhhL5Wyv/Z5S9kwhcEgWh3XeqioEbQZctQ4MC8ZPk9DS93zNzYMqPKRhiaA==}
+  /ag-grid-vue3/26.0.0_6800db38983924182b3db8bddde4e787:
+    resolution: {integrity: sha512-lobzqo+UWTzAoDgxaJ0Uen8azbEDhyz7gBJa6UzyrQe3GOTyu7XyLF5TI3aoj6hRsHxih5Av2u+S4FGHpZAZHQ==}
     peerDependencies:
-      ag-grid-community: ~25.3.0
+      ag-grid-community: ~26.0.0
       vue: ^3.0.0
       vue-class-component: '>= ^8.0.0-beta.3'
     dependencies:
-      ag-grid-community: 25.3.0
+      ag-grid-community: 26.0.0
       vue: 3.1.5
       vue-class-component: 8.0.0-rc.1_vue@3.1.5
     dev: false
