@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef } from 'vue';
+import { defineComponent } from 'vue';
 import { Vue, Options } from 'vue-property-decorator';
 
 import EsriMapV from '@/components/map/esri-map.vue';
@@ -49,20 +49,22 @@ import { get } from '@/store/pathify-helper';
 import { FixtureInstance } from '@/api';
 import { GlobalEvents } from '@/api';
 
-@Options({
+export default defineComponent({
+    name: 'Shell',
     components: {
         'esri-map': EsriMapV,
         'panel-stack': PanelStackV,
         'map-caption': MapCaptionV,
         'notification-floating-button': NotificationsFloatingButtonV,
         'keyboard-instructions-modal': KeyboardInstructionsModalV
-    }
-})
-export default class Shell extends Vue {
-    // TODO: this doesn't work
-    appbarFixture?: ComputedRef<FixtureInstance> = get(`fixture/items@appbar`);
-    // @Get(`fixture/items@appbar`) appbarFixture?: FixtureInstance;
-    start: boolean = false;
+    },
+
+    data() {
+        return {
+            appbarFixture: get(`fixture/items@appbar`),
+            start: false
+        };
+    },
 
     created() {
         if (this.$iApi.startRequired) {
@@ -73,12 +75,13 @@ export default class Shell extends Vue {
             this.$iApi.event.emit(GlobalEvents.MAP_START);
             this.start = true;
         }
+    },
+    methods: {
+        openKeyboardInstructions() {
+            this.$iApi.event.emit('openKeyboardInstructions');
+        }
     }
-
-    openKeyboardInstructions() {
-        this.$iApi.event.emit('openKeyboardInstructions');
-    }
-}
+});
 </script>
 
 <style lang="scss" scoped>
