@@ -1,15 +1,11 @@
 <template>
     <div class="h-full relative">
         <!-- TODO: should inner shell be a separate component? -->
-        <div
-            class="inner-shell absolute top-0 left-0 h-full w-full pointer-events-none"
-        >
+        <div class="inner-shell absolute top-0 left-0 h-full w-full pointer-events-none">
             <panel-stack
                 class="sm:flex absolute inset-0 overflow-hidden xs:pl-40 sm:p-12 sm:pl-80 z-10 sm:pb-36 xs:pb-28"
             ></panel-stack>
-            <notification-floating-button
-                v-if="!appbarFixture"
-            ></notification-floating-button>
+            <notification-floating-button v-if="!appbarFixture"></notification-floating-button>
             <map-caption class="z-10"></map-caption>
         </div>
 
@@ -18,30 +14,31 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef } from 'vue';
+import { defineComponent } from 'vue';
 import { Vue, Options } from 'vue-property-decorator';
 
 import EsriMapV from '@/components/map/esri-map.vue';
 import PanelStackV from '@/components/panel-stack/panel-stack.vue';
 import MapCaptionV from '@/components/map/map-caption.vue';
 import NotificationsFloatingButtonV from '@/components/notification-center/floating-button.vue';
-import { Get } from 'vuex-pathify';
 import { get } from '@/store/pathify-helper';
 import { FixtureInstance } from '@/api';
 
-@Options({
+export default defineComponent({
+    name: 'Shell',
     components: {
         'esri-map': EsriMapV,
         'panel-stack': PanelStackV,
         'map-caption': MapCaptionV,
         'notification-floating-button': NotificationsFloatingButtonV
+    },
+
+    data() {
+        return {
+            appbarFixture: get(`fixture/items@appbar`)
+        };
     }
-})
-export default class Shell extends Vue {
-    // TODO: this doesn't work
-    appbarFixture?: ComputedRef<FixtureInstance> = get(`fixture/items@appbar`);
-    // @Get(`fixture/items@appbar`) appbarFixture?: FixtureInstance;
-}
+});
 </script>
 
 <style lang="scss" scoped></style>
