@@ -55,7 +55,7 @@
             @click="onScaleClick"
             :aria-pressed="scale.isImperialScale"
             :aria-label="$t('map.toggleScaleUnits')"
-            v-tippy="{ placement: 'top', hideOnClick: false }"
+            v-tippy="{ placement: 'top', hideOnClick: false, theme: 'ramp4', animation: 'scale' }"
             :content="$t('map.toggleScaleUnits')"
         >
             <span
@@ -101,9 +101,7 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef } from 'vue';
-import { Vue, Options } from 'vue-property-decorator';
-import { Get } from 'vuex-pathify';
+import { defineComponent } from 'vue';
 import { get } from '@/store/pathify-helper';
 import { Attribution, ScaleBarProperties } from '@/geo/api';
 import { GlobalEvents } from '@/api';
@@ -111,19 +109,19 @@ import { MapCaptionStore } from '@/store/modules/map-caption';
 
 import NotificationsCaptionButtonV from '@/components/notification-center/caption-button.vue';
 
-@Options({
+export default defineComponent({
+    data() {
+        return {
+            scale: get(MapCaptionStore.scale),
+            attribution: get(MapCaptionStore.attribution),
+            cursorCoords: get(MapCaptionStore.cursorCoords),
+            lang: [] as string[]
+        };
+    },
+
     components: {
         'notifications-caption-button': NotificationsCaptionButtonV
-    }
-})
-export default class MapCaptionV extends Vue {
-    scale: ComputedRef<ScaleBarProperties> = get(MapCaptionStore.scale);
-    attribution: ComputedRef<Attribution> = get(MapCaptionStore.attribution);
-    cursorCoords: ComputedRef<string> = get(MapCaptionStore.cursorCoords);
-    // @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
-    // @Get(MapCaptionStore.attribution) attribution!: Attribution;
-    // @Get(MapCaptionStore.cursorCoords) cursorCoords!: string;
-    lang: string[] = [];
+    },
 
     mounted() {
         // When map is created update scale
@@ -141,31 +139,35 @@ export default class MapCaptionV extends Vue {
         this.$iApi.event.on(GlobalEvents.MAP_CREATED, () => {
             this.$iApi.geo.map.caption.updateScale();
         });
-    }
+    },
 
     updated() {
-        if (this.$iApi.$vApp.$i18n && this.lang.length == 0) {
-            this.lang = this.$iApi.$vApp.$i18n.availableLocales;
+        this.$nextTick(function() {
+            if (this.$iApi.$vApp.$i18n && this.lang.length == 0) {
+                this.lang = this.$iApi.$vApp.$i18n.availableLocales;
+            }
+        });
+    },
+
+    methods: {
+        changeLang(lang: string) {
+            if (this.$iApi.$vApp.$i18n.locale != lang) {
+                this.$iApi.setLanguage(lang);
+            }
+        },
+
+        /**
+         * Toggle the scale units
+         */
+        onScaleClick() {
+            this.$iApi.$vApp.$store.set(MapCaptionStore.toggleScale, {});
+            this.$iApi.geo.map.caption.updateScale();
         }
     }
-
-    changeLang(lang: string) {
-        if (this.$iApi.$vApp.$i18n.locale != lang) {
-            this.$iApi.setLanguage(lang);
-        }
-    }
-
-    /**
-     * Toggle the scale units
-     */
-    onScaleClick() {
-        this.$iApi.$vApp.$store.set(MapCaptionStore.toggleScale, {});
-        this.$iApi.geo.map.caption.updateScale();
-    }
-}
+});
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .map-caption {
     backdrop-filter: blur(5px);
 }

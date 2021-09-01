@@ -72,6 +72,7 @@ importers:
       terraformer-arcgis-parser: 1.1.0
       throttle-debounce: ~3.0.1
       tiny-emitter: ^2.1.0
+      tippy.js: next
       tslib: ~1.10.0
       tslint: 5.17.0
       tslint-loader: 3.6.0
@@ -118,6 +119,7 @@ importers:
       terraformer-arcgis-parser: 1.1.0
       throttle-debounce: 3.0.1
       tiny-emitter: 2.1.0
+      tippy.js: 6.0.0-alpha.0
       vue: 3.1.5
       vue-class-component: 8.0.0-rc.1_vue@3.1.5
       vue-i18n: 9.1.7_vue@3.1.5
@@ -13662,6 +13664,12 @@ packages:
 
   /tiny-emitter/2.1.0:
     resolution: {integrity: sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==}
+    dev: false
+
+  /tippy.js/6.0.0-alpha.0:
+    resolution: {integrity: sha512-jdWKStAr8DKc5o+N2OUddqJMW4UFCIe/U6Ki8nSoE1WqQ9UYrq4ekO2kxMea75edsIuYy0cWfdb1Iop9lIHDLw==}
+    dependencies:
+      '@popperjs/core': 2.9.3
     dev: false
 
   /tippy.js/6.3.1:
