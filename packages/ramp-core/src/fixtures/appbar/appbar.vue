@@ -2,10 +2,11 @@
     <div
         class="absolute top-0 left-0 bottom-28 z-50 flex flex-col items-stretch w-40 pointer-events-auto appbar bg-black-75 sm:w-64"
         v-focus-list
+        ref="el"
     >
         <component
             v-for="(item, index) in items"
-            :is="item.componentId"
+            :is="addComponentIdSuffix(item.componentId)"
             :key="`${item}-${index}`"
             class="appbar-item"
             :class="{ 'h-48': item.id !== 'divider' }"
@@ -15,7 +16,7 @@
         <divider class="appbar-item"></divider>
         <component
             v-for="item in temporaryItems"
-            :is="item.componentId"
+            :is="addComponentIdSuffix(item.componentId)"
             :key="`${item.id}-temp`"
             class="appbar-item h-48"
             :options="item.options"
@@ -31,29 +32,19 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef, defineComponent } from 'vue';
-import { Vue, Options } from 'vue-property-decorator';
-import { Get } from 'vuex-pathify';
+import { defineComponent, ref } from 'vue';
 import { get } from '@/store/pathify-helper';
-
-import { AppbarItemInstance } from './store';
 
 import MoreAppbarButtonV from './more-button.vue';
 import NavAppbarButtonV from './nav-button.vue';
 import NotificationsAppbarButtonV from '@/components/notification-center/appbar-button.vue';
-import LegendAppbarButtonV from '@/fixtures/legend/appbar-button.vue';
-import BasemapAppbarButtonV from '@/fixtures/basemap/appbar-button.vue';
-import GeosearchAppbarButtonV from '@/fixtures/geosearch/appbar-button.vue';
 
 export default defineComponent({
     name: 'AppbarV',
     components: {
         'more-button': MoreAppbarButtonV,
         'nav-button': NavAppbarButtonV,
-        'notifications-appbar-button': NotificationsAppbarButtonV,
-        legend: LegendAppbarButtonV,
-        basemap: BasemapAppbarButtonV,
-        geosearch: GeosearchAppbarButtonV
+        'notifications-appbar-button': NotificationsAppbarButtonV
     },
 
     data() {
@@ -64,67 +55,74 @@ export default defineComponent({
             // @Get('appbar/temporary') temporaryItems!: AppbarItemInstance[];
             overflow: false
         };
+    },
+    updated() {
+        this.$nextTick(() => {
+            const element: any = this.$refs.el;
+
+            let children: Element[] = [...element.childNodes];
+            console.log('appbar updated: ', this);
+
+            let bound: number | undefined = children[children.length - 2].clientTop;
+            let dropdown: Element | null = document.getElementById('dropdown');
+
+            // check positions of appbar buttons
+            for (let i = children.length - 3; i >= 0; i--) {
+                let bottom: number = children[i].clientTop + children[i].clientHeight;
+                if (
+                    bound &&
+                    dropdown &&
+                    (bottom >= bound || (this.overflow && bottom + 48 >= bound))
+                ) {
+                    console.log(`[${i}]`, children[i].getBoundingClientRect());
+
+                    children[i].classList.remove('hover:text-white', 'text-gray-400');
+                    children[i].classList.add('text-black', 'hover:bg-gray-100');
+
+                    element.removeChild(children[i]);
+                    dropdown.appendChild(children[i]);
+                    if (!this.overflow) this.overflow = true;
+                } else {
+                    break;
+                }
+            }
+
+            // check position of more button
+            let more: Element | null = document.getElementById('more');
+            let moreBottom = element.clientTop + element.clientHeight;
+            if (
+                this.overflow &&
+                bound &&
+                more &&
+                dropdown &&
+                moreBottom !== 0 &&
+                (moreBottom <= bound - 48 || dropdown.childElementCount == 1)
+            ) {
+                while (moreBottom <= bound - 48 || dropdown.childElementCount == 1) {
+                    let item: Element | null = dropdown.firstElementChild;
+                    if (item) {
+                        item.classList.remove('text-black', 'hover:bg-gray-100');
+                        item.classList.add('text-gray-400', 'hover:text-white');
+                        dropdown.removeChild(item);
+                        element.insertBefore(item, more);
+                    }
+                }
+                if (dropdown.childElementCount == 0) this.overflow = false;
+            }
+        });
+    },
+    methods: {
+        /**
+         * Checks if the component id has the "-appbar-button" suffix
+         * Returns the component id with the suffix added
+         */
+        addComponentIdSuffix(componentId: string): string {
+            if (componentId.includes('-appbar-button')) {
+                return componentId;
+            }
+            return `${componentId}-appbar-button`;
+        }
     }
-
-    // TODO: update this after (issue with getBoundingClientRect)
-    // updated() {
-    //     let children: Element[] = [...this.$el.childNodes];
-    //     console.log('appbar updated: ', this);
-    //     let bound:
-    //         | number
-    //         | undefined = this.$el.lastChild?.getBoundingClientRect().top;
-    //     let dropdown: Element | null = document.getElementById('dropdown');
-
-    //     // check positions of appbar buttons
-    //     for (let i = children.length - 3; i >= 0; i--) {
-    //         if (
-    //             bound &&
-    //             dropdown &&
-    //             (children[i].getBoundingClientRect().bottom >= bound ||
-    //                 (this.overflow &&
-    //                     children[i].getBoundingClientRect().bottom + 48 >=
-    //                         bound))
-    //         ) {
-    //             children[i].classList.remove(
-    //                 'hover:text-white',
-    //                 'text-gray-400'
-    //             );
-    //             children[i].classList.add('text-black', 'hover:bg-gray-100');
-
-    //             this.$el.removeChild(children[i]);
-    //             dropdown.appendChild(children[i]);
-    //             if (!this.overflow) this.overflow = true;
-    //         } else {
-    //             break;
-    //         }
-    //     }
-
-    //     // check position of more button
-    //     let more: Element | null = document.getElementById('more');
-    //     if (
-    //         this.overflow &&
-    //         bound &&
-    //         more &&
-    //         dropdown &&
-    //         more.getBoundingClientRect().bottom !== 0 &&
-    //         (more.getBoundingClientRect().bottom <= bound - 48 ||
-    //             dropdown.childElementCount == 1)
-    //     ) {
-    //         while (
-    //             more.getBoundingClientRect().bottom <= bound - 48 ||
-    //             dropdown.childElementCount == 1
-    //         ) {
-    //             //@ts-ignore
-    //             let item: Element = dropdown.firstElementChild;
-    //             item.classList.remove('text-black', 'hover:bg-gray-100');
-    //             item.classList.add('text-gray-400', 'hover:text-white');
-
-    //             dropdown.removeChild(item);
-    //             this.$el.insertBefore(item, more);
-    //         }
-    //         if (dropdown.childElementCount == 0) this.overflow = false;
-    //     }
-    // }
 });
 </script>
 

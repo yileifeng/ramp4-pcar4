@@ -43,7 +43,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Vue } from 'vue-property-decorator';
 
 export default defineComponent({
     name: 'NavAppbarButtonV',
