@@ -27,10 +27,10 @@
                             v-model="url"
                             :label="$t('wizard.upload.url.label')"
                             @link="updateUrl"
-                            validation="bail|required|url"
+                            :validation="true"
                             :validation-messages="{
                                 required: $t('wizard.upload.url.error.required'),
-                                url: $t('wizard.upload.url.error.url')
+                                invalid: $t('wizard.upload.url.error.url')
                             }"
                         >
                         </wizard-input>
@@ -86,6 +86,7 @@
                             type="select"
                             name="type"
                             v-model="typeSelection"
+                            @select="updateTypeSelection"
                             :size="
                                 isFileLayer() ? fileTypeOptions.length : serviceTypeOptions.length
                             "
@@ -95,9 +96,11 @@
                                     : $t('wizard.format.type.service')
                             "
                             :options="isFileLayer() ? fileTypeOptions : serviceTypeOptions"
-                            validation="required"
+                            :formatError="formatError"
+                            :validation="true"
                             :validation-messages="{
-                                required: $t('wizard.format.type.error.required')
+                                required: $t('wizard.format.type.error.required'),
+                                invalid: $t('wizard.format.type.error.invalid')
                             }"
                             @keydown.stop
                         >
@@ -146,8 +149,9 @@
                             type="text"
                             name="name"
                             v-model="layerInfo.config.name"
+                            @text="updateLayerName"
                             :label="$t('wizard.configure.name.label')"
-                            validation="required"
+                            :validation="true"
                             :validation-messages="{
                                 required: $t('wizard.configure.name.error.required')
                             }"
@@ -193,18 +197,23 @@
                             v-if="layerInfo.configOptions.includes(`layerEntries`)"
                             type="select"
                             name="layerEntries"
+                            v-model="layerInfo.config.layerEntries"
+                            @select="updateLayerEntries"
                             :label="$t('wizard.configure.layerEntries.label')"
                             :help="$t('wizard.configure.layerEntries.help')"
                             :options="sublayerOptions()"
-                            multiple="true"
-                            validation="required"
+                            :multiple="true"
+                            :validation="true"
+                            :validation-messages="{
+                                required: $t('wizard.configure.layerEntries.error.required')
+                            }"
                             @keydown.stop
                         >
                         </wizard-input>
                         <wizard-form-footer
                             @submit="onConfigureContinue"
                             @cancel="goToStep(1)"
-                            :disabled="false"
+                            :disabled="!finishStep"
                         ></wizard-form-footer>
                     </form>
                     <!-- <FormulateForm
@@ -325,7 +334,9 @@ export default defineComponent({
             goToStep: call(WizardStore.goToStep),
 
             formulateFile: {},
+            formatError: false,
             goNext: false,
+            finishStep: false,
 
             // service layer formats
             serviceTypeOptions: [
@@ -372,7 +383,6 @@ export default defineComponent({
             reader.onerror = () => {
                 this.formulateFile = {};
                 // this.formulateFile?.files[0].removeFile();
-                // TODO: fix error handling for vue 3
                 // this.setError(
                 //     'upload',
                 //     'file',
@@ -396,12 +406,10 @@ export default defineComponent({
 
         // lifecycle hook captures errors from child components
         errorCaptured(err: Error, instance: Component, info: string) {
+            console.log('error captured!', this.step, WizardStep.FORMAT);
             if (this.step === WizardStep.FORMAT || this.step === WizardStep.CONFIGURE) {
-                this.setError(
-                    'format',
-                    'type',
-                    this.$t('wizard.format.type.error.invalid') as string
-                );
+                this.formatError = true;
+                // this.setError('format', 'type', this.$t('wizard.format.type.error.invalid') as string);
                 this.goToStep(WizardStep.FORMAT);
             }
 
@@ -424,25 +432,43 @@ export default defineComponent({
         },
 
         async onSelectContinue() {
-            this.layerInfo = this.isFileLayer()
-                ? await this.layerSource.fetchFileInfo(this.url, this.typeSelection, this.fileData)
-                : await this.layerSource.fetchServiceInfo(this.url, this.typeSelection);
+            try {
+                this.layerInfo = this.isFileLayer()
+                    ? await this.layerSource.fetchFileInfo(
+                          this.url,
+                          this.typeSelection,
+                          this.fileData
+                      )
+                    : await this.layerSource.fetchServiceInfo(this.url, this.typeSelection);
 
-            if (!this.layerInfo) {
-                this.setError(
-                    'format',
-                    'type',
-                    this.$t('wizard.format.type.error.invalid') as string
-                );
+                if (!this.layerInfo) {
+                    this.formatError = true;
+                    return;
+                }
+
+                this.goToStep(WizardStep.CONFIGURE);
+                this.layerInfo.configOptions.includes(`layerEntries`)
+                    ? (this.finishStep = false)
+                    : (this.finishStep = true);
+            } catch (_) {
+                this.formatError = true;
                 return;
             }
+            // if (!this.layerInfo) {
+            //     this.formatError = true;
+            //     this.setError(
+            //         'format',
+            //         'type',
+            //         this.$t('wizard.format.type.error.invalid') as string
+            //     );
+            //     return;
+            // }
 
-            this.goToStep(WizardStep.CONFIGURE);
+            // this.goToStep(WizardStep.CONFIGURE);
         },
 
         async onConfigureContinue(data: object) {
             const config = Object.assign(this.layerInfo!.config, data);
-            // console.log('on configure continue: ', config, this.layerInfo.config, data);
 
             if (!this.$iApi.geo.layer.layerDefExists(config.layerType)) {
                 await this.$iApi.geo.layer.addLayerDef(config.layerType);
@@ -495,7 +521,7 @@ export default defineComponent({
             return this.fileData || this.url.match(/\.(zip|csv|json|geojson)$/);
         },
 
-        // sets an error message on an input field (TODO: handle wizard errors for vue 3)
+        // sets an error message on an input field
         setError(form: string, field: string, msg: string) {
             this.$formulate.handle(
                 {
@@ -511,9 +537,24 @@ export default defineComponent({
             this.uploadFile(newFile);
         },
 
-        updateUrl(url: String) {
+        updateUrl(url: string, valid: boolean) {
             this.url = url.trim();
-            this.url ? (this.goNext = true) : (this.goNext = false);
+            valid ? (this.goNext = true) : (this.goNext = false);
+        },
+
+        updateTypeSelection(type: string) {
+            this.typeSelection = type;
+            this.formatError = false;
+        },
+
+        updateLayerName(name: string) {
+            this.layerInfo.config.name = name;
+            name ? (this.finishStep = true) : (this.finishStep = false);
+        },
+
+        updateLayerEntries(le: Array<any>) {
+            this.layerInfo.config.layerEntries = le;
+            le.length > 0 ? (this.finishStep = true) : (this.finishStep = false);
         }
     }
 });

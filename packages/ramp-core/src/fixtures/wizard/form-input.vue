@@ -43,29 +43,75 @@
                     type="url"
                     name="url"
                     :value="modelValue"
-                    @input="$emit('link', $event.target.value)"
+                    @change="valid ? (urlError = false) : (urlError = true)"
+                    @input="
+                        event => {
+                            validUrl(event.target.value);
+                            $emit('link', event.target.value, valid);
+                            urlError = false;
+                        }
+                    "
                 />
+            </div>
+            <div v-if="urlError" class="text-red-900 text-xs">
+                {{ modelValue ? validationMessages.invalid : validationMessages.required }}
             </div>
         </div>
         <div v-else-if="type === 'select'">
             <label class="text-base font-bold">{{ label }}</label>
             <div class="relative mb-0.5" data-type="select">
-                <select
-                    class="block border-solid border-gray-300 w-full p-3 overflow-y-auto"
-                    v-bind:class="size && 'configure-select'"
-                    :size="size ? size : null"
-                    :value="modelValue"
-                    @input="$emit('update:modelValue', $event.target.value)"
-                >
-                    <option
-                        class="p-6"
-                        v-for="option in options"
-                        v-bind:key="option"
-                        :value="option.value"
+                <div v-if="multiple">
+                    <select
+                        class="block border-solid border-gray-300 w-full p-3 overflow-y-auto"
+                        multiple
+                        :value="modelValue"
+                        v-model="selected"
+                        @change="
+                            event => {
+                                $emit('select', selected);
+                                checkMultiSelectError(selected);
+                            }
+                        "
                     >
-                        {{ option.label }}
-                    </option>
-                </select>
+                        <option
+                            class="p-6"
+                            v-for="option in options"
+                            v-bind:key="option"
+                            :value="option.value"
+                        >
+                            {{ option.label }}
+                        </option>
+                    </select>
+                    <div class="text-gray-400 text-xs mb-1">{{ help }}</div>
+                    <div v-if="validation && layerEntriesError" class="text-red-900 text-xs">
+                        {{ validationMessages.required }}
+                    </div>
+                </div>
+                <div v-else>
+                    <select
+                        class="block border-solid border-gray-300 w-full p-3 overflow-y-auto"
+                        v-bind:class="size && 'configure-select'"
+                        :size="size ? size : null"
+                        :value="modelValue"
+                        @input="
+                            size
+                                ? $emit('select', $event.target.value)
+                                : $emit('update:modelValue', $event.target.value)
+                        "
+                    >
+                        <option
+                            class="p-6"
+                            v-for="option in options"
+                            v-bind:key="option"
+                            :value="option.value"
+                        >
+                            {{ option.label }}
+                        </option>
+                    </select>
+                    <div v-if="validation && formatError" class="text-red-900 text-xs">
+                        {{ validationMessages.invalid }}
+                    </div>
+                </div>
             </div>
         </div>
         <div v-else>
@@ -75,8 +121,11 @@
                     class="border-solid border-gray-300 p-3 w-full"
                     type="text"
                     :value="modelValue"
-                    @input="$emit('update:modelValue', $event.target.value)"
+                    @change="$emit('text', $event.target.value)"
                 />
+            </div>
+            <div v-if="validation && !modelValue" class="text-red-900 text-xs">
+                {{ validationMessages.required }}
             </div>
         </div>
     </div>
@@ -87,7 +136,7 @@ import { defineComponent, PropType } from 'vue';
 
 interface ValidationMsgs {
     required: string;
-    url: string;
+    invalid: string;
 }
 
 interface SelectionOption {
@@ -98,8 +147,8 @@ interface SelectionOption {
 export default defineComponent({
     name: 'WizardInputV',
     props: {
-        formulateFile: {
-            type: [Object, Boolean],
+        formatError: {
+            type: Boolean,
             default: false
         },
         help: {
@@ -126,6 +175,10 @@ export default defineComponent({
             type: [Number, Boolean],
             default: false
         },
+        multiple: {
+            type: Boolean,
+            default: false
+        },
         type: {
             type: String,
             default: 'text'
@@ -134,7 +187,43 @@ export default defineComponent({
             type: [String, Boolean],
             default: false
         },
-        validationMessages: Object as PropType<ValidationMsgs>
+        validation: {
+            type: Boolean,
+            default: false
+        },
+        validationMessages: {
+            type: Object as PropType<ValidationMsgs>
+        }
+    },
+
+    data() {
+        return {
+            valid: false,
+            urlError: false,
+            layerEntriesError: false,
+            selected: []
+        };
+    },
+
+    methods: {
+        validUrl(url: string) {
+            let newUrl;
+            try {
+                newUrl = new URL(url);
+            } catch (_) {
+                this.valid = false;
+                return false;
+            }
+
+            const link = newUrl.protocol === 'http:' || newUrl.protocol === 'https:';
+            link ? (this.valid = true) : (this.valid = false);
+        },
+
+        checkMultiSelectError(selected: Array<any>) {
+            selected && selected.length > 0
+                ? (this.layerEntriesError = false)
+                : (this.layerEntriesError = true);
+        }
     }
 });
 </script>
