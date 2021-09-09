@@ -107,7 +107,13 @@
                         </wizard-input>
                         <wizard-form-footer
                             @submit="onSelectContinue"
-                            @cancel="goToStep(0)"
+                            @cancel="
+                                () => {
+                                    formatError = false;
+                                    url ? (goNext = true) : (goNext = false);
+                                    goToStep(0);
+                                }
+                            "
                             :disabled="false"
                         ></wizard-form-footer>
                     </form>
@@ -375,6 +381,19 @@ export default defineComponent({
         };
     },
 
+    // lifecycle hook captures errors from child components
+    // errorCaptured(err, instance, info) {
+    //     if (this.step === WizardStep.FORMAT || this.step === WizardStep.CONFIGURE) {
+    //         this.formatError = true;
+    //         // this.setError('format', 'type', this.$t('wizard.format.type.error.invalid') as string);
+    //         setTimeout(() => {
+    //             this.goToStep(WizardStep.FORMAT);
+    //         }, 100);
+    //     }
+    //     // return value needs to be false to prevent bubbling up to parent component errorCaptured
+    //     return false;
+    // },
+
     methods: {
         // reads uploaded file
         async uploadFile(file: File, progress?: Function) {
@@ -404,20 +423,6 @@ export default defineComponent({
             reader.readAsArrayBuffer(file);
         },
 
-        // lifecycle hook captures errors from child components
-        errorCaptured(err: Error, instance: Component, info: string) {
-            console.log('error captured!', this.step, WizardStep.FORMAT);
-            if (this.step === WizardStep.FORMAT || this.step === WizardStep.CONFIGURE) {
-                this.formatError = true;
-                // this.setError('format', 'type', this.$t('wizard.format.type.error.invalid') as string);
-                this.goToStep(WizardStep.FORMAT);
-            }
-
-            // TODO: look into the Vue lifecycle function errorCaptured. Not sure what the
-            // return value should be here. Expected return value is boolean or undefined.
-            return undefined;
-        },
-
         onUploadContinue() {
             if (this.fileData) {
                 setTimeout(() => {
@@ -441,7 +446,9 @@ export default defineComponent({
                       )
                     : await this.layerSource.fetchServiceInfo(this.url, this.typeSelection);
 
-                if (!this.layerInfo) {
+                const featureError =
+                    this.typeSelection === LayerType.FEATURE && !this.layerInfo.fields;
+                if (!this.layerInfo || featureError) {
                     this.formatError = true;
                     return;
                 }
@@ -454,17 +461,6 @@ export default defineComponent({
                 this.formatError = true;
                 return;
             }
-            // if (!this.layerInfo) {
-            //     this.formatError = true;
-            //     this.setError(
-            //         'format',
-            //         'type',
-            //         this.$t('wizard.format.type.error.invalid') as string
-            //     );
-            //     return;
-            // }
-
-            // this.goToStep(WizardStep.CONFIGURE);
         },
 
         async onConfigureContinue(data: object) {
@@ -548,13 +544,16 @@ export default defineComponent({
         },
 
         updateLayerName(name: string) {
-            this.layerInfo.config.name = name;
-            name ? (this.finishStep = true) : (this.finishStep = false);
+            const le = this.layerInfo.config.layerEntries;
+            const canFinish = le ? name && le.length > 0 : name;
+            canFinish ? (this.finishStep = true) : (this.finishStep = false);
         },
 
         updateLayerEntries(le: Array<any>) {
             this.layerInfo.config.layerEntries = le;
-            le.length > 0 ? (this.finishStep = true) : (this.finishStep = false);
+            le.length > 0 && this.layerInfo.config.name
+                ? (this.finishStep = true)
+                : (this.finishStep = false);
         }
     }
 });
