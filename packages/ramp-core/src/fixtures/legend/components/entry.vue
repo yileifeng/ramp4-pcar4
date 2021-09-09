@@ -272,10 +272,4 @@ export default defineComponent({
     @apply text-gray-400;
     cursor: default;
 }
-.spinner {
-    border: 2px solid rgba(0, 0, 0, 0.158);
-    border-top: 2px solid #3f51b5;
-    border-right: 2px solid #3f51b5;
-    border-radius: 50%;
-}
 </style>
