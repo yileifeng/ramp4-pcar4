@@ -737,6 +737,18 @@ rInstance.$element.component('WFSLayer-Custom', {
     `
 });
 
+var iklobLoad = rInstance.event.on('fixture/added', fixture => {
+    if (fixture.id === 'iklob') {
+        rInstance.event.off(iklobLoad);
+        rInstance.panel.open('iklob-p1');
+    }
+});
+
+rInstance.fixture.add('mouruge', window.hostFixtures.mouruge).then(() => {
+    rInstance.panel.open('mouruge-p1');
+    console.log('OPENING MOURUGE FIXTURE!!!', window.hostFixtures.mouruge);
+});
+
 // add export-v1 fixtures
 rInstance.fixture.add('export-v1');
 

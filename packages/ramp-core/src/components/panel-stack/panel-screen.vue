@@ -50,6 +50,10 @@ export default defineComponent({
             default: false
         },
         panel: Object as PropType<PanelInstance>
+    },
+
+    created() {
+        console.log('PANEL SCREEN INSTANTIATED: ', this);
     }
 });
 </script>
