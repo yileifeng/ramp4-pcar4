@@ -269,6 +269,7 @@ export default defineComponent({
     }
 }
 .disabled {
-    @apply text-gray-400 cursor-default;
+    @apply text-gray-400;
+    cursor: default;
 }
 </style>
