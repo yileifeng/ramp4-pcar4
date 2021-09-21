@@ -54,26 +54,19 @@ export class MapCaptionAPI extends APIScope {
             // Check if attribution logo is enabled
             if (!newAttribution.logo.disabled) {
                 // Need to add OR (||) incase newAttribution values are undefined/empty
-                attribution.logo.altText =
-                    newAttribution.logo.altText || attribution.logo.altText;
-                attribution.logo.link =
-                    newAttribution.logo.link || attribution.logo.link;
-                attribution.logo.value =
-                    newAttribution.logo.value || attribution.logo.value;
+                attribution.logo.altText = newAttribution.logo.altText || attribution.logo.altText;
+                attribution.logo.link = newAttribution.logo.link || attribution.logo.link;
+                attribution.logo.value = newAttribution.logo.value || attribution.logo.value;
             }
 
             // Check if attribution text is enabled
             if (!newAttribution.text.disabled) {
                 // Need to add OR (||) incase newAttribution value is undefined/empty
-                attribution.text.value =
-                    newAttribution.text.value || attribution.text.value;
+                attribution.text.value = newAttribution.text.value || attribution.text.value;
             }
 
             // Update attribution
-            this.$iApi.$vApp.$store.set(
-                MapCaptionStore.setAttribution,
-                attribution
-            );
+            this.$iApi.$vApp.$store.set(MapCaptionStore.setAttribution, attribution);
         }
 
         // If the new attribution is undefined, or its text is disabled, pull text from copyright
@@ -81,9 +74,7 @@ export class MapCaptionAPI extends APIScope {
             // Pull copyright text from basemap's baselayers
 
             if (!this.$iApi.geo.map.esriMap) {
-                console.warn(
-                    'Attempted to fetch map attribution with undefined map'
-                );
+                console.warn('Attempted to fetch map attribution with undefined map');
                 return;
             }
 
@@ -98,8 +89,7 @@ export class MapCaptionAPI extends APIScope {
                         // Keep count of layer.load checks done so far
                         let elapsedIntervals: number = 0;
                         // The maximum number of layer.load checks we will do
-                        const maxIntervals: number =
-                            loadTimeout / intervalTimeout;
+                        const maxIntervals: number = loadTimeout / intervalTimeout;
 
                         let wait = setInterval(function() {
                             if (bl.loaded && !bl.loadError) {
@@ -122,14 +112,10 @@ export class MapCaptionAPI extends APIScope {
                     .map((bl: any) => bl.copyright)
                     .join(' | ');
 
-                attribution.text.value =
-                    copyrightText || attribution.text.value;
+                attribution.text.value = copyrightText || attribution.text.value;
 
                 // Update attribution
-                this.$iApi.$vApp.$store.set(
-                    MapCaptionStore.setAttribution,
-                    attribution
-                );
+                this.$iApi.$vApp.$store.set(MapCaptionStore.setAttribution, attribution);
             });
         }
     }
@@ -160,9 +146,7 @@ export class MapCaptionAPI extends APIScope {
         // If meters < 1Km, then use different scaling
         if (meters > 1000) {
             // get the distance in units, either miles or kilometers
-            const units =
-                (mapResolution * factor) /
-                (isImperialScale ? metersInAMile : 1000);
+            const units = (mapResolution * factor) / (isImperialScale ? metersInAMile : 1000);
             unit = isImperialScale ? 'mi' : 'km';
 
             // length of the distance number
@@ -175,14 +159,10 @@ export class MapCaptionAPI extends APIScope {
             distance = Math.ceil(units / div) * div;
 
             // calcualte length of the scale line in pixels based on the round distance
-            pixels =
-                (distance * (isImperialScale ? metersInAMile : 1000)) /
-                mapResolution;
+            pixels = (distance * (isImperialScale ? metersInAMile : 1000)) / mapResolution;
         } else {
             // Round the meters up
-            distance = Math.ceil(
-                isImperialScale ? meters * metersInAFoot : meters
-            );
+            distance = Math.ceil(isImperialScale ? meters * metersInAFoot : meters);
             pixels = meters / mapResolution;
             unit = isImperialScale ? 'ft' : 'm';
         }
@@ -218,9 +198,7 @@ export class MapCaptionAPI extends APIScope {
         if (typeof value === 'string') {
             // value is formatter id
             if (!(value in this.DEFAULT_POINT_FORMATTERS)) {
-                console.warn(
-                    `Could not find point formatter with id: ${value}`
-                );
+                console.warn(`Could not find point formatter with id: ${value}`);
                 return;
             }
             this.pointFormatter = this.DEFAULT_POINT_FORMATTERS[value];
@@ -259,9 +237,7 @@ export class MapCaptionAPI extends APIScope {
      * @return {Number} the wrapped value
      */
     wrapValue(val: number, min: number, max: number): number {
-        return (
-            ((((val - min) % (max - min)) + (max - min)) % (max - min)) + min
-        );
+        return ((((val - min) % (max - min)) + (max - min)) % (max - min)) + min;
     }
 
     /**
@@ -273,10 +249,7 @@ export class MapCaptionAPI extends APIScope {
      */
     async formatLatLongDMS(p: Point): Promise<string> {
         // get the lat long projection
-        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(
-            4326,
-            p
-        );
+        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(4326, p);
 
         const lat = this.wrapValue(latLongPoint.y, -90, 90);
         const lon = this.wrapValue(latLongPoint.x, -180, 180);
@@ -291,18 +264,12 @@ export class MapCaptionAPI extends APIScope {
         const mx = Math.floor(Math.abs((lon - dx) * 60));
         const sx = Math.floor((Math.abs(lon) - Math.abs(dx) - mx / 60) * 3600);
 
-        const newY = `${Math.abs(dy)}${degreeSymbol} ${this.padZero(
-            my
-        )}' ${this.padZero(sy)}"`;
-        const newX = `${Math.abs(dx)}${degreeSymbol} ${this.padZero(
-            mx
-        )}' ${this.padZero(sx)}"`;
+        const newY = `${Math.abs(dy)}${degreeSymbol} ${this.padZero(my)}' ${this.padZero(sy)}"`;
+        const newX = `${Math.abs(dx)}${degreeSymbol} ${this.padZero(mx)}' ${this.padZero(sx)}"`;
 
         return `${newY} ${this.$iApi.$vApp.$t(
             'map.coordinates.' + (lat > 0 ? 'north' : 'south')
-        )} | ${newX} ${this.$iApi.$vApp.$t(
-            'map.coordinates.' + (0 > lon ? 'west' : 'east')
-        )}`;
+        )} | ${newX} ${this.$iApi.$vApp.$t('map.coordinates.' + (0 > lon ? 'west' : 'east'))}`;
     }
 
     /**
@@ -314,10 +281,7 @@ export class MapCaptionAPI extends APIScope {
      */
     async formatLatLongDDM(p: Point): Promise<string> {
         // get the lat long projection
-        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(
-            4326,
-            p
-        );
+        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(4326, p);
 
         const lat = this.wrapValue(latLongPoint.y, -90, 90);
         const lon = this.wrapValue(latLongPoint.x, -180, 180);
@@ -334,9 +298,7 @@ export class MapCaptionAPI extends APIScope {
 
         return `${newY} ${this.$iApi.$vApp.$t(
             'map.coordinates.' + (lat > 0 ? 'north' : 'south')
-        )} | ${newX} ${this.$iApi.$vApp.$t(
-            'map.coordinates.' + (0 > lon ? 'west' : 'east')
-        )}`;
+        )} | ${newX} ${this.$iApi.$vApp.$t('map.coordinates.' + (0 > lon ? 'west' : 'east'))}`;
     }
 
     /**
@@ -348,10 +310,7 @@ export class MapCaptionAPI extends APIScope {
      */
     async formatLatLongDD(p: Point): Promise<string> {
         // get the lat long projection
-        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(
-            4326,
-            p
-        );
+        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(4326, p);
 
         const lat = this.wrapValue(latLongPoint.y, -90, 90);
         const lon = this.wrapValue(latLongPoint.x, -180, 180);
@@ -377,14 +336,9 @@ export class MapCaptionAPI extends APIScope {
      */
     async formatMercator(p: Point): Promise<string> {
         // project using Web-Mercator wkid
-        const projectedPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(
-            3857,
-            p
-        );
+        const projectedPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(3857, p);
 
-        return `${Math.abs(
-            Math.floor(projectedPoint.x)
-        )} m ${this.$iApi.$vApp.$t(
+        return `${Math.abs(Math.floor(projectedPoint.x))} m ${this.$iApi.$vApp.$t(
             'map.coordinates.' + (0 > projectedPoint.x ? 'west' : 'east')
         )} | ${Math.abs(Math.floor(projectedPoint.y))} m ${this.$iApi.$vApp.$t(
             'map.coordinates.' + (projectedPoint.y > 0 ? 'north' : 'south')
@@ -400,14 +354,9 @@ export class MapCaptionAPI extends APIScope {
      */
     async formatLambert(p: Point): Promise<string> {
         // project using Lambert wkid
-        const projectedPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(
-            3978,
-            p
-        );
+        const projectedPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(3978, p);
 
-        return `${Math.abs(
-            Math.floor(projectedPoint.x)
-        )} m ${this.$iApi.$vApp.$t(
+        return `${Math.abs(Math.floor(projectedPoint.x))} m ${this.$iApi.$vApp.$t(
             'map.coordinates.' + (0 > projectedPoint.x ? 'west' : 'east')
         )} | ${Math.abs(Math.floor(projectedPoint.y))} m ${this.$iApi.$vApp.$t(
             'map.coordinates.' + (projectedPoint.y > 0 ? 'north' : 'south')
@@ -423,10 +372,7 @@ export class MapCaptionAPI extends APIScope {
      */
     async formatUTM(p: Point): Promise<string> {
         // get the lat long point
-        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(
-            4326,
-            p
-        );
+        const latLongPoint: any = await this.$iApi.geo.utils.proj.projectGeometry(4326, p);
         const lat = this.wrapValue(latLongPoint.y, -90, 90);
         const lon = this.wrapValue(latLongPoint.x, -180, 180);
 
