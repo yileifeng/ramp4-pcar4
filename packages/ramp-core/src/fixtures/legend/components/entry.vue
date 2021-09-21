@@ -265,7 +265,7 @@ export default defineComponent({
 .legend-item:hover,
 .legend-item:focus-within {
     .options {
-        display: block;
+        @apply block;
     }
 }
 .disabled {

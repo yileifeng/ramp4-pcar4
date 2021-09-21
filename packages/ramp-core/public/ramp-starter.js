@@ -28,6 +28,14 @@ let config = {
                     latestWkid: 3857
                 }
             },
+            caption: {
+                mouseCoords: {
+                    formatter: 'WEB_MERCATOR'
+                },
+                scaleBar: {
+                    imperialScale: true
+                }
+            },
             lods: RAMP.GEO.defaultLODs(RAMP.GEO.defaultTileSchemas()[1]), // idx 1 = mercator
             tileSchemas: [
                 {
@@ -719,7 +727,8 @@ let config = {
 
 let options = {
     loadDefaultFixtures: false,
-    loadDefaultEvents: true
+    loadDefaultEvents: true,
+    startRequired: false
 };
 
 rInstance = new RAMP.Instance(document.getElementById('app'), config, options);
@@ -739,6 +748,9 @@ rInstance.$element.component('WFSLayer-Custom', {
 
 // add export-v1 fixtures
 rInstance.fixture.add('export-v1');
+
+// load map if startRequired is true
+rInstance.start();
 
 function switchLang() {
     if (rInstance.language === 'en') {

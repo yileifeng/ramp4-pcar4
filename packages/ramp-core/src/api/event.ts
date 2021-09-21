@@ -9,9 +9,9 @@ import { LegendAPI } from '@/fixtures/legend/api/legend';
 import { LegendStore } from '@/fixtures/legend/store';
 import { GridStore, GridAction } from '@/fixtures/grid/store';
 import {
-    Attribution,
     MapClick,
     MapMove,
+    MouseCoords,
     RampBasemapConfig,
     ScreenPoint
 } from '@/geo/api';
@@ -63,6 +63,7 @@ export enum GlobalEvents {
     MAP_KEYUP = 'map/keyup',
     MAP_BLUR = 'map/blur',
     MAP_BASEMAPCHANGE = 'map/basemapchanged', // payload is the new basemap id (string)
+    MAP_START = 'map/start',
 
     /**
      * Fires when the map scale changes.
@@ -617,16 +618,27 @@ export class EventAPI extends APIScope {
                 this.$iApi.event.on(
                     GlobalEvents.MAP_MOUSEMOVE,
                     throttle(200, (mapMove: MapMove) => {
+                        // check if cursor coords are disabled
+                        // if it is, then do not update it
+                        const currentCursorCoords:
+                            | MouseCoords
+                            | undefined = this.$iApi.$vApp.$store.get(
+                            MapCaptionStore.cursorCoords
+                        );
+                        if (currentCursorCoords?.disabled) {
+                            return;
+                        }
+
                         this.$iApi.geo.map.caption
                             .formatPoint(
                                 this.$iApi.geo.map.screenPointToMapPoint(
                                     mapMove
                                 )
                             )
-                            .then(formattedString => {
+                            .then(fs => {
                                 this.$iApi.$vApp.$store.set(
                                     MapCaptionStore.setCursorCoords,
-                                    formattedString
+                                    { formattedString: fs }
                                 );
                             });
                     }),

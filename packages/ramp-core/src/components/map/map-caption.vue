@@ -38,11 +38,12 @@
 
         <!-- TODO: find out if any ARIA attributes are needed for the map scale -->
 
-        <span class="flex-shrink-0 relative top-1 pr-14 pl-14">
-            {{ cursorCoords }}
+        <span v-if="!cursorCoords.disabled" class="flex-shrink-0 relative top-1 pr-14 pl-14">
+            {{ cursorCoords.formattedString }}
         </span>
 
         <button
+            v-if="!scale.disabled"
             class="
                 flex-shrink-0
                 mx-10
@@ -103,10 +104,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { get } from '@/store/pathify-helper';
-import { Attribution, ScaleBarProperties } from '@/geo/api';
 import { GlobalEvents } from '@/api';
 import { MapCaptionStore } from '@/store/modules/map-caption';
-
+import { ConfigStore } from '@/store/modules/config';
 import NotificationsCaptionButtonV from '@/components/notification-center/caption-button.vue';
 
 export default defineComponent({
@@ -115,6 +115,7 @@ export default defineComponent({
             scale: get(MapCaptionStore.scale),
             attribution: get(MapCaptionStore.attribution),
             cursorCoords: get(MapCaptionStore.cursorCoords),
+            mapConfig: get(ConfigStore.getMapConfig),
             lang: [] as string[]
         };
     },
