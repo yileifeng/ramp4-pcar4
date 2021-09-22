@@ -102,9 +102,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { get } from '@/store/pathify-helper';
-import { GlobalEvents } from '@/api';
+import { Attribution, MouseCoords, RampMapConfig, ScaleBar } from '@/geo/api';
 import { MapCaptionStore } from '@/store/modules/map-caption';
 import { ConfigStore } from '@/store/modules/config';
 import NotificationsCaptionButtonV from '@/components/notification-center/caption-button.vue';
@@ -124,22 +124,13 @@ export default defineComponent({
         'notifications-caption-button': NotificationsCaptionButtonV
     },
 
-    mounted() {
-        // When map is created update scale
-
-        // TODO consider giving this handler a specific name and put in the document.
-        //      since it happens at map create, could be risky/tricky putting it in the "default" events
-        //      as odds are if there is any delay, the handler will miss the MAP_CREATED event.
-        //      But having a specific name means someone can remove it later at their lesiure.
-
-        // TODO consider what happens when a map is re-created. We might need to check if common handlers pre-exist.
-        //      or do some type of "one time only" boolean so we don't have double-handlers each time a projection changes.
-        //      we also need to be careful of the scenario where someone removes these default handlers after the map loads;
-        //      we would not want to re-add them back during a projection change -- want to respect the new custom handlers.
-
-        this.$iApi.event.on(GlobalEvents.MAP_CREATED, () => {
-            this.$iApi.geo.map.caption.updateScale();
-        });
+    watch: {
+        mapConfig(newConfig: RampMapConfig, oldConfig: RampMapConfig) {
+            if (newConfig === oldConfig) {
+                return;
+            }
+            this.$iApi.geo.map.caption.createCaption(this.mapConfig.caption);
+        }
     },
 
     updated() {
@@ -161,7 +152,8 @@ export default defineComponent({
          * Toggle the scale units
          */
         onScaleClick() {
-            this.$iApi.$vApp.$store.set(MapCaptionStore.toggleScale, {});
+            // undefined argument will toggle the scale unit
+            this.$iApi.$vApp.$store.set(MapCaptionStore.toggleScale, undefined);
             this.$iApi.geo.map.caption.updateScale();
         }
     }
