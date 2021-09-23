@@ -4,6 +4,12 @@ import { markRaw } from 'vue';
 class MourugeFixture {
     added(): void {
         // TODO: import `FixtureInstance` types
+        console.log('adding MOURUGE FIXTURE NEW: ', this);
+        //@ts-ignore
+        const { vNode, destroy, el } = this.mount(screen, { app: this.$element });
+        //@ts-ignore
+        const innerShell = this.$vApp.$el.getElementsByClassName('inner-shell')[0];
+        innerShell.appendChild(el.childNodes[0]);
         (this as any).$iApi.panel.register({
             id: 'mouruge-p1',
             config: {

@@ -140,6 +140,7 @@ const actions = {
 const mutations = {
     [PanelMutation.REGISTER_PANEL](state: PanelState, { panel }: { panel: PanelInstance }): void {
         state.items = { ...state.items, [panel.id]: panel };
+        console.log('REGISTERING PANEL: ', panel, panel.id);
     },
 
     [PanelMutation.OPEN_PANEL](state: PanelState, { panel }: { panel: PanelInstance }): void {

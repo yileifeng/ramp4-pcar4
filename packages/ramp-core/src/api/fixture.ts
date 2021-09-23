@@ -206,6 +206,11 @@ export class FixtureInstance extends APIScope implements FixtureBase {
                     return instance.$vApp;
                 }
             },
+            $element: {
+                get() {
+                    return instance.$element;
+                }
+            },
             remove: { value: instance.remove },
             extend: { value: instance.extend },
             config: {
